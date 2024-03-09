@@ -11,6 +11,18 @@ public class Hand {
         hand.add(new SkullCard());
     }
 
+    // TODO potential leak here messing with internals? probably fine
+    public MultiSet<Card> getMultiSet() {return this.hand;}
+    
+    public void addCard(Card card) {
+        hand.add(card);
+    }
+
+    public void removeCard(Card card) {
+        // TODO add exception checking?
+        hand.remove(card);
+    }
+
     public Card popSkull() {
         return hand.remove(new SkullCard()); // using equals method removes skullCard like one passed
     }
