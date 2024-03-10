@@ -1,3 +1,5 @@
+package src.game_objects;
+
 import src.data_structures.MultiSet;
 
 public class Hand {
@@ -6,14 +8,19 @@ public class Hand {
     public Hand() {
         hand = new MultiSet<>();
         for (int i=0; i<3; ++i) {
-            hand.add(new FlowerCard());
+            hand.add(new Card("flower"));
         }
-        hand.add(new SkullCard());
+        hand.add(new Card("skull"));
     }
 
     // TODO potential leak here messing with internals? probably fine
     public MultiSet<Card> getMultiSet() {return this.hand;}
-    
+
+    @Override
+    public String toString() {
+        return hand.toString();
+    }
+
     public void addCard(Card card) {
         hand.add(card);
     }
@@ -24,10 +31,21 @@ public class Hand {
     }
 
     public Card popSkull() {
-        return hand.remove(new SkullCard()); // using equals method removes skullCard like one passed
+        return hand.remove(new Card("skull")); // using equals method removes skullCard like one passed
     }
 
     public Card popFlower() {
-        return hand.remove(new FlowerCard());
+        return hand.remove(new Card("flower"));
+    }
+
+    public int size() {
+        return hand.size();
+    }
+    
+    /**
+     * Empties hand of all cards, useful for testing.
+     */
+    public void clearCards() {
+        hand = new MultiSet<>();
     }
 }

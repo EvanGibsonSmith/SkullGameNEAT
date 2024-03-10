@@ -1,11 +1,19 @@
+package src.game_objects;
+
 import java.util.Stack;
 import java.util.Scanner;
 
-// TODO potentially this would work best split into a bbetting player and a round player, useful for AI potentially as well
 public class PlacingRoundPlayer {
     Hand hand;
     Stack<Card> playedCards;
 
+    // TODO potentially protected so that it can be used in player to tie these together but not elsewhere?
+    public PlacingRoundPlayer(Hand hand, Stack<Card> playedCards) {
+        this.hand = hand;
+        this.playedCards = playedCards;
+    }
+
+    // TODO is this extra constructor useful?
     public PlacingRoundPlayer(Hand hand) {
         this.hand = hand;
         playedCards = new Stack<>();
@@ -34,8 +42,8 @@ public class PlacingRoundPlayer {
      */
     public boolean[] options() {
         boolean[] optionsOutput = {false, false};
-        if (hand.getMultiSet().contains(new SkullCard())) {optionsOutput[0]=true;}
-        if (hand.getMultiSet().contains(new FlowerCard())) {optionsOutput[1]=true;}
+        if (hand.getMultiSet().contains(new Card("skull"))) {optionsOutput[0]=true;}
+        if (hand.getMultiSet().contains(new Card("flower"))) {optionsOutput[1]=true;}
 
         return optionsOutput;
     }
@@ -46,10 +54,10 @@ public class PlacingRoundPlayer {
         playedCards.add(toPlay);
     }
 
-    private void placeCard(int isSkull) {
+    public void placeCard(int isSkull) {
         boolean isSkullBoolean = false;
-        if (isSkull==0) {isSkullBoolean=false;}
-        else if (isSkull==1) {isSkullBoolean=true;}
+        if (isSkull==0) {isSkullBoolean=true;}
+        else if (isSkull==1) {isSkullBoolean=false;}
         else {
             // TODO handle this, invalid case
         }
@@ -63,7 +71,7 @@ public class PlacingRoundPlayer {
         Scanner scnr = new Scanner(System.in);
         System.out.println("Would you like to play Skull, Flower, or begin betting round? Type 0 for skull, 1 for flower and 2 for beginning betting round");
         int decision = scnr.nextInt();
-        scnr.close();
+        //scnr.close(); TODO not closing right now (which isn't great) so user can continue to give inputs
         // process decision
         if (decision==2) {
             return true; // placing round over flag is raised

@@ -1,6 +1,9 @@
+package src.game_objects;
+
 public class FullRound {
     PlacingRound placingRound;
     BettingRound bettingRound;
+    RevealingRound revealingRound;
 
     // TODO below needed as instance variables? Probably, it makes sense through OO logic but look back when not jet lagged
     Player[] players;
@@ -17,6 +20,14 @@ public class FullRound {
         runRevealingRound(bettingPlayerCursor);
     }
 
+    public int getNumPlayedCards() {
+        int sum = 0;
+        for (Player p: players) {
+            sum += p.getPlayedCards().size();
+        }
+        return sum;
+    }
+
     private PlacingRoundPlayer[] getPlacingRoundPlayers() {
         PlacingRoundPlayer[] placingRoundPlayers = new PlacingRoundPlayer[players.length];
         for (int p=0; p<players.length; ++p) {
@@ -26,7 +37,7 @@ public class FullRound {
     }
 
     private void runPlacingRound() {
-        PlacingRound placingRound = new PlacingRound(getPlacingRoundPlayers(), cursor);
+        placingRound = new PlacingRound(getPlacingRoundPlayers(), cursor); // TODO can just use normal players now
         placingRound.runRound(); // updates proper player variables
         cursor = placingRound.getCursor(); // update cursor field for bettingRound
     }
@@ -40,7 +51,7 @@ public class FullRound {
     }
 
     private int runBettingRound() {
-        BettingRound bettingRound = new BettingRound(getBettingRoundPlayers(), cursor);
+        bettingRound = new BettingRound(getBettingRoundPlayers(), getNumPlayedCards(), cursor); 
         return bettingRound.runRound();
     }
 
@@ -53,7 +64,7 @@ public class FullRound {
     }
 
     private void runRevealingRound(int bettingPlayerCursor) {
-        RevealingRound revealingRound = new RevealingRound(getRevealingRoundPlayers(), bettingPlayerCursor, cursor);
+        revealingRound = new RevealingRound(getRevealingRoundPlayers(), bettingRound.getBetValue(), bettingPlayerCursor);
         revealingRound.runRound();
     }
 

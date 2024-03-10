@@ -1,7 +1,17 @@
+package src.game_objects;
+
 public class PlacingRound {
     int cursor = -1;
     PlacingRoundPlayer[] players;
 
+    public PlacingRound(Player[] players, int startingPlayer) {
+        this.players = new PlacingRoundPlayer[players.length];
+        for (int i=0; i<players.length; ++i) {
+            this.players[i] = players[i].getPlacingRoundPlayer();
+        }
+        this.cursor = startingPlayer;
+    }
+    
     public PlacingRound(PlacingRoundPlayer[] players, int startingPlayer) {
         this.players = players;
         this.cursor = startingPlayer;
@@ -22,6 +32,7 @@ public class PlacingRound {
         // initially, all stacks should be empty (this is assumed) TODO document this
         boolean placingRoundOverFlag = false; // raised when player decides, players cannot choose invalid options, so this is safe
         while (!placingRoundOverFlag) {
+            System.out.println("Player " + cursor);
             placingRoundOverFlag = queryPlayer(); // new player does turn
             incrementCursor(); // move to next player
         }

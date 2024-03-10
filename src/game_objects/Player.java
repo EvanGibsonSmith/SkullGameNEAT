@@ -1,3 +1,5 @@
+package src.game_objects;
+
 import java.util.Stack;
 
 public class Player {
@@ -8,14 +10,14 @@ public class Player {
     RevealingRoundPlayer revealingRoundPlayers;
 
     public Player() {
-        this.placingRoundPlayers = new PlacingRoundPlayer(hand);
+        this.placingRoundPlayers = new PlacingRoundPlayer(hand, playedCards);
         this.bettingRoundPlayers = new BettingRoundPlayer();
         this.revealingRoundPlayers = new RevealingRoundPlayer(hand, playedCards);
     }
 
     public Player(Hand hand) {
         this.hand = hand;
-        this.placingRoundPlayers = new PlacingRoundPlayer(hand);
+        this.placingRoundPlayers = new PlacingRoundPlayer(hand, playedCards);
         this.bettingRoundPlayers = new BettingRoundPlayer();
         this.revealingRoundPlayers = new RevealingRoundPlayer(hand, playedCards);
     }
@@ -30,6 +32,10 @@ public class Player {
 
     public RevealingRoundPlayer getRevealingRoundPlayer() {
         return this.revealingRoundPlayers;
+    }
+
+    public int getPoints() {
+        return this.getRevealingRoundPlayer().getPoints();
     }
 
     public Hand getHand() {
