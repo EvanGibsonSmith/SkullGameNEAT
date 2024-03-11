@@ -6,6 +6,7 @@ public class RevealingRound {
     RevealingRoundPlayer[] players;
     int playerBetAmount;
     int cursor; // cursor does not change, since there is only one player revealing TODO make constant
+    // TODO make successful a field? Might make more sense
 
     // TODO: not sure about this now, but consider having the full player class getting used instead of the individual type? 
     // this allows the full capabilites of the player class to be used, but may decrease the encapsulation of using the
@@ -50,36 +51,17 @@ public class RevealingRound {
     // TODO document, potentially, helper for runRound(), ran when succesful
     private void incrementPoints() {players[cursor].incrementPoints();}
 
-    private void removeCard() {
-        int cardRemoveType = players[cursor].decideRemoveCard();
-        Card removalCard = null;
-        switch (cardRemoveType) {
-            case 0:
-                removalCard = new Card("skull"); // TODO instead of skull and flower card just make a card with field of either skull or flower since there are no methods to differentiate the two
-                break;
-            case 1:
-                removalCard = new Card("flower");
-                break;
-
-            default:
-                break;
-        }
-        players[cursor].getHand().removeCard(removalCard);
-    }
-
     // TODO does not cover that the player must flip their OWN card first
-    public void runRound() {
+    public boolean runRound() {
         boolean successful = flipCards();
         if (successful) {
             incrementPoints();
         }
-        else {
-            removeCard();
-        }
-        // return each players cards back to their hand
+        // return cards to players
         for (RevealingRoundPlayer p: players) {
             p.returnCards();
         }
+        return successful;
     }
 
     private int queryPlayer() {

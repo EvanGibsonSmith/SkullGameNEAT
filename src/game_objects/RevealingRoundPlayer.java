@@ -30,7 +30,7 @@ public class RevealingRoundPlayer {
     }
 
     // TODO: Maybe too much info passing all of the players stuff? Additionally, needing other player info here breaks pattern of other player types
-    public Set<Integer> validFlipOptions(RevealingRoundPlayer[] players) {
+    public Set<Integer> validOptions(RevealingRoundPlayer[] players) {
         Set<Integer> options = new HashSet<>();
         for (int i=0; i<players.length; ++i) {
             RevealingRoundPlayer p = players[i];
@@ -46,7 +46,7 @@ public class RevealingRoundPlayer {
     public int decideFlip(RevealingRoundPlayer[] players) { // TODO implemented by different strategies? make interface later?
         Scanner scnr = new Scanner(System.in);
         System.out.println("Please input the index of the player you would like to pick.");
-        Set<Integer> validOptions = validFlipOptions(players);
+        Set<Integer> validOptions = validOptions(players);
         int decision = scnr.nextInt();
         while (!validOptions.contains(decision)) {
             System.out.println("That is not a valid option, please enter another option");
@@ -54,28 +54,6 @@ public class RevealingRoundPlayer {
         }
         // TODO catch incorrect outputs
         //scnr.close(); TODO not closing right now (which isn't great) so user can continue to give inputs
-        return decision;
-    }
-
-    // TODO create removal round player as well, so each player has one validOptions and decide function.
-    public Set<Integer> validRemovalOptions() {
-        Set<Integer> options = new HashSet<>();
-        MultiSet<Card> cards = hand.getMultiSet();
-        if (cards.contains(new Card("skull"))) {options.add(0);}
-        if (cards.contains(new Card("flower"))) {options.add(1);}
-        return options;
-    }
-
-    public int decideRemoveCard() {
-        Scanner scnr = new Scanner(System.in);
-        System.out.println("Please input type of card to remove. 0 for skull, 1 for flower.");
-        Set<Integer> validOptions = validRemovalOptions();
-        int decision = scnr.nextInt();
-        while (!validOptions.contains(decision)) {
-            System.out.println("That is not a valid option, please enter another option");
-            decision = scnr.nextInt();
-        }
-        //scnr.close(); TODO not closing right now because System.in needed later
         return decision;
     }
 

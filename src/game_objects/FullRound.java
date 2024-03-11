@@ -17,7 +17,11 @@ public class FullRound {
     public void runRound() {
         runPlacingRound(); // each of these sets up player variables properly
         int bettingPlayerCursor = runBettingRound(); // need output to know which player is flipping for point
-        runRevealingRound(bettingPlayerCursor);
+        boolean success = runRevealingRound(bettingPlayerCursor);
+        if (!success) {
+            // TODO these broken up playes might be kind of clunky. Maybe put all functions within player class that is composition of parts
+            players[bettingPlayerCursor].getRemoveRoundPlayer().removeCard(); // removeCard includes decision from player
+        }
     }
 
     public int getNumPlayedCards() {
@@ -63,9 +67,9 @@ public class FullRound {
         return revealingRoundPlayers;
     }
 
-    private void runRevealingRound(int bettingPlayerCursor) {
+    private boolean runRevealingRound(int bettingPlayerCursor) {
         revealingRound = new RevealingRound(getRevealingRoundPlayers(), bettingRound.getBetValue(), bettingPlayerCursor);
-        revealingRound.runRound();
+        return revealingRound.runRound();
     }
 
 
