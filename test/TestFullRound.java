@@ -7,7 +7,7 @@ public class TestFullRound {
     
     // NOTE: Tested by using debugger and terminal to verify it is behvaing as intended
     public static void main(String[] args) {
-        Player[] players = new Player[3];
+        Player[] players = new Player[2];
         for (int i=0; i<players.length; ++i) {
             players[i] = new Player();
         }

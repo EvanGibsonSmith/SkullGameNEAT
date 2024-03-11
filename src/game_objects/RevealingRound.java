@@ -83,6 +83,6 @@ public class RevealingRound {
     }
 
     private int queryPlayer() {
-        return players[cursor].decideFlip(); // chooseCard adds that card to players stack
+        return players[cursor].decideFlip(players); // chooseCard adds that card to players stack
     }
 }

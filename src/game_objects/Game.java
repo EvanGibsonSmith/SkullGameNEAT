@@ -8,6 +8,11 @@ public class Game {
     int winnerCursor = -1;
     Stack<FullRound> rounds = new Stack<>(); // NOTE: we might not technically need to track rounds, but they are nice to have
 
+    public Game(Player[] players, int startingPlayerCursor) {
+        this.players = players;
+        this.startingPlayerCursor = startingPlayerCursor;
+    }
+
     public int getWinnerCursor() {
         for (int i=0; i<players.length; ++i) {
             Player p = players[i];
@@ -25,11 +30,6 @@ public class Game {
             }
         }
         return false;
-    }
-
-    public Game(Player[] players, int startingPlayerCursor) {
-        this.players = players;
-        this.startingPlayerCursor = startingPlayerCursor;
     }
 
     public void runGame() {

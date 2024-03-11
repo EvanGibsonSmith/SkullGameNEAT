@@ -9,7 +9,7 @@ public class TestBettingRoundPlayer {
         BettingRoundPlayer player = new BettingRoundPlayer();
         int currentBet = 1;
         int maxBet = 3;
-        player.decide(currentBet, maxBet);
+        player.decide(true, currentBet, maxBet);
     }
 
 }

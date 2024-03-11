@@ -3,7 +3,7 @@ package src.game_objects;
 public class BettingRound {
     BettingRoundPlayer[] players;
     int maxBet; // number of cards on table, for maxBet
-    int currBet = -1;
+    int currBet = 0;
     int cursor;
 
     public BettingRound(Player[] players, int maxBet, int cursor) {
@@ -38,12 +38,19 @@ public class BettingRound {
         for (int i=0; i<players.length; ++i) {
             playersIn[i] = true;
         }
+
+        // force first player to bet a value
+        System.out.println("Player " + cursor);
+        players[cursor].decide(true, currBet, maxBet); 
+        currBet = players[cursor].getBet();
+        incrementCursor();
+
         while (cursor!=lastRaisingPlayer) { // if cursor=lastRaisingPlayer then we have looped without another raise
             if (playersIn[cursor]==false) { // skip player if not in betting anymore
                 continue;
             }
             System.out.println("Player " + cursor);
-            boolean decision = players[cursor].decide(currBet, maxBet); // current bet is minimum, number of players max
+            boolean decision = queryPlayer(); // current bet is minimum, number of players max
             if (decision==false) { // could shorten to playersIn[cursor]=decision
                 playersIn[cursor] = false;
             }
@@ -56,7 +63,7 @@ public class BettingRound {
         return lastRaisingPlayer; // TODO consider having this be a field in the class that can then be gotten with a getter
     }
 
-    public void queryPlayer() {
-        players[cursor].decide(currBet, players.length);
+    public boolean queryPlayer() {
+        return players[cursor].decide(false, currBet, maxBet);
     }
 }

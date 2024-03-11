@@ -30,7 +30,7 @@ public class TestRevealingRound {
         int playerBetAmount = 6;
         int cursor = 0;
         RevealingRound round = new RevealingRound(players, playerBetAmount, cursor);
-        round.runRound(); // TODO BIG ISSUE THE playedCards for the placingRoundPlayer is not the same as the whole player
+        round.runRound();
 
         // print player information
         for (int i=0; i<players.length; ++i) { // not showing played cards since they are returned to hand
@@ -93,7 +93,7 @@ public class TestRevealingRound {
 
     }
 
-    // TODO doesn't work
+    // TODO doesn't work (the content doesn't fail, the testing code does)
     @Test
     void flipOneOtherPlayerSuccess() {
         Player[] players = new Player[3];
