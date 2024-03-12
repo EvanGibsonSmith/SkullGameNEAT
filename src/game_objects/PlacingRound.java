@@ -26,6 +26,10 @@ public class PlacingRound {
         cursor = (cursor + 1) % players.length;
     }
 
+    private void decrementCursor() {
+        cursor = (cursor - 1) % players.length;
+    }
+
     // TODO complete me (should this be automatically  fonr within the constructor)
     public void runRound() {
         // start with starting player and then cycle.
@@ -36,6 +40,7 @@ public class PlacingRound {
             placingRoundOverFlag = queryPlayer(); // new player does turn
             incrementCursor(); // move to next player
         }
+        decrementCursor(); // decrement cursor it points to final placement
     }
 
     /**

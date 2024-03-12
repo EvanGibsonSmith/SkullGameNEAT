@@ -2,7 +2,7 @@ package src.game_objects;
 
 public class BettingRound {
     BettingRoundPlayer[] players;
-    int maxBet; // number of cards on table, for maxBet
+    int maxBet; // number of cards on table
     int currBet = 0;
     int cursor;
 
@@ -46,7 +46,7 @@ public class BettingRound {
         currBet = players[cursor].getBet();
         incrementCursor();
 
-        // if cursor=lastRaisingPlayer then we have looped without another raise
+        // if cursor==lastRaisingPlayer then we have looped without another raise
         while (cursor!=lastRaisingPlayer && numPlayersIn!=1 && currBet!=maxBet) { 
             if (playersIn[cursor]==false) { // skip player if not in betting anymore
                 continue;
