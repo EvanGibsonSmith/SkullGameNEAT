@@ -31,10 +31,10 @@ public class BettingRound {
         cursor = (cursor + 1) % players.length;
     }
 
-    // TODO doesn't work, needs to force initiating player
     public int runRound() {
         int lastRaisingPlayer = -1; // keep track so when round ends we know who must guess
         boolean[] playersIn = new boolean[players.length];
+        int numPlayersIn = players.length;
         for (int i=0; i<players.length; ++i) {
             playersIn[i] = true;
         }
@@ -42,10 +42,12 @@ public class BettingRound {
         // force first player to bet a value
         System.out.println("Player " + cursor);
         players[cursor].decide(true, currBet, maxBet); 
+        lastRaisingPlayer = cursor; // set this as lastRaisingPlayer (will always occur since first player must bet)
         currBet = players[cursor].getBet();
         incrementCursor();
 
-        while (cursor!=lastRaisingPlayer) { // if cursor=lastRaisingPlayer then we have looped without another raise
+        // if cursor=lastRaisingPlayer then we have looped without another raise
+        while (cursor!=lastRaisingPlayer && numPlayersIn!=1 && currBet!=maxBet) { 
             if (playersIn[cursor]==false) { // skip player if not in betting anymore
                 continue;
             }
@@ -53,6 +55,7 @@ public class BettingRound {
             boolean decision = queryPlayer(); // current bet is minimum, number of players max
             if (decision==false) { // could shorten to playersIn[cursor]=decision
                 playersIn[cursor] = false;
+                --numPlayersIn; // subtract number of players left
             }
             else {
                 lastRaisingPlayer = cursor; // this player betted so update last raising player

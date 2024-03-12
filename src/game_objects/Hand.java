@@ -41,6 +41,10 @@ public class Hand {
     public int size() {
         return hand.size();
     }
+
+    public boolean empty() {
+        return size()==0;
+    }
     
     /**
      * Empties hand of all cards, useful for testing.
