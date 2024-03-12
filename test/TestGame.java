@@ -20,5 +20,9 @@ public class TestGame {
             System.out.println("\t Hand: " + p.getHand());
             System.out.println("\t Points " + p.getPoints());
         }
+        System.out.println("Winner Info!");
+        Player winner = game.getWinner();
+        System.out.println("\t Hand: " + winner.getHand());
+        System.out.println("\t Points: " + winner.getPoints());
     }
 }
