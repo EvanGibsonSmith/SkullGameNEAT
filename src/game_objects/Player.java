@@ -3,7 +3,8 @@ package src.game_objects;
 import java.util.Stack;
 
 public class Player {
-    Hand hand = new Hand(); 
+    String name;
+    Hand hand; 
     Stack<Card> playedCards = new Stack<>();
     PlacingRoundPlayer placingRoundPlayer;
     BettingRoundPlayer bettingRoundPlayer;
@@ -11,13 +12,19 @@ public class Player {
     RemoveRoundPlayer removeRoundPlayer;
 
     public Player() {
-        this.placingRoundPlayer = new PlacingRoundPlayer(hand, playedCards);
-        this.bettingRoundPlayer = new BettingRoundPlayer();
-        this.revealingRoundPlayer = new RevealingRoundPlayer(hand, playedCards);
-        this.removeRoundPlayer = new RemoveRoundPlayer(hand);
+        this("Default", new Hand()); // initializes player with new full hand/default name
     }
 
     public Player(Hand hand) {
+        this("Default", hand);
+    }
+
+    public Player(String name) {
+        this(name, new Hand());
+    }
+
+    public Player(String name, Hand hand) {
+        this.name = name;
         this.hand = hand;
         this.placingRoundPlayer = new PlacingRoundPlayer(hand, playedCards);
         this.bettingRoundPlayer = new BettingRoundPlayer();
@@ -25,6 +32,10 @@ public class Player {
         this.removeRoundPlayer = new RemoveRoundPlayer(hand);
     }
 
+    public String getName() {
+        return this.name;
+    }
+    
     public PlacingRoundPlayer getPlacingRoundPlayer() {
         return this.placingRoundPlayer;
     }

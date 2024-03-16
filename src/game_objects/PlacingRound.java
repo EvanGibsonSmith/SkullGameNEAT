@@ -2,21 +2,11 @@ package src.game_objects;
 
 public class PlacingRound {
     int cursor = -1;
-    PlacingRoundPlayer[] players;
+    Player[] players;
 
     public PlacingRound(Player[] players, int startingPlayer) {
-        this.players = new PlacingRoundPlayer[players.length];
-        for (int i=0; i<players.length; ++i) {
-            this.players[i] = players[i].getPlacingRoundPlayer();
-        }
-        this.cursor = startingPlayer;
-    }
-    
-    public PlacingRound(PlacingRoundPlayer[] players, int startingPlayer) {
         this.players = players;
         this.cursor = startingPlayer;
-
-        // TODO sanity check to make sure if cursor if within player range if I'm feeling benevolent?
     }
     
     public int getCursor() {return cursor;}
@@ -36,7 +26,7 @@ public class PlacingRound {
         // initially, all stacks should be empty (this is assumed) TODO document this
         boolean placingRoundOverFlag = false; // raised when player decides, players cannot choose invalid options, so this is safe
         while (!placingRoundOverFlag) {
-            System.out.println("Player " + cursor);
+            System.out.println("Player " + players[cursor].getName());
             placingRoundOverFlag = queryPlayer(); // new player does turn
             incrementCursor(); // move to next player
         }
@@ -54,8 +44,9 @@ public class PlacingRound {
      * @return boolean, if the player cursor points to has the ability to shift into the betting round
      */
     public boolean canEndPlacingRound() {
-        for (PlacingRoundPlayer p: players) {
-            if (p.getStackSize()==0) { // if any player has no cards played, cannot end round, otherwise yes
+        for (Player p: players) {
+            PlacingRoundPlayer placingRoundPlayer = p.getPlacingRoundPlayer();
+            if (placingRoundPlayer.getStackSize()==0) { // if any player has no cards played, cannot end round, otherwise yes
                 return false;
             }
         }
@@ -64,6 +55,6 @@ public class PlacingRound {
     
     // TODO document. Returns flag if PlacingRound is over.
     private boolean queryPlayer() {
-        return players[cursor].decide(canEndPlacingRound()); // chooseCard adds that card to players stack
+        return players[cursor].getPlacingRoundPlayer().decide(canEndPlacingRound()); // chooseCard adds that card to players stack
     }
 }

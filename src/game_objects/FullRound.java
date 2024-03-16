@@ -32,43 +32,19 @@ public class FullRound {
         return sum;
     }
 
-    private PlacingRoundPlayer[] getPlacingRoundPlayers() {
-        PlacingRoundPlayer[] placingRoundPlayers = new PlacingRoundPlayer[players.length];
-        for (int p=0; p<players.length; ++p) {
-            placingRoundPlayers[p] = players[p].getPlacingRoundPlayer();
-        }
-        return placingRoundPlayers;
-    }
-
     private void runPlacingRound() {
-        placingRound = new PlacingRound(getPlacingRoundPlayers(), cursor); // TODO can just use normal players now
+        placingRound = new PlacingRound(players, cursor); // TODO can just use normal players now
         placingRound.runRound(); // updates proper player variables
         cursor = placingRound.getCursor(); // update cursor field for bettingRound
     }
 
-    private BettingRoundPlayer[] getBettingRoundPlayers() {
-        BettingRoundPlayer[] bettingRoundPlayers = new BettingRoundPlayer[players.length];
-        for (int p=0; p<players.length; ++p) {
-            bettingRoundPlayers[p] = players[p].getBettingRoundPlayer();
-        }
-        return bettingRoundPlayers;
-    }
-
     private int runBettingRound() {
-        bettingRound = new BettingRound(getBettingRoundPlayers(), getNumPlayedCards(), cursor); 
+        bettingRound = new BettingRound(players, getNumPlayedCards(), cursor); 
         return bettingRound.runRound();
     }
 
-    private RevealingRoundPlayer[] getRevealingRoundPlayers() {
-        RevealingRoundPlayer[] revealingRoundPlayers = new RevealingRoundPlayer[players.length];
-        for (int p=0; p<players.length; ++p) {
-            revealingRoundPlayers[p] = players[p].getRevealingRoundPlayer();
-        }
-        return revealingRoundPlayers;
-    }
-
     private boolean runRevealingRound(int bettingPlayerCursor) {
-        revealingRound = new RevealingRound(getRevealingRoundPlayers(), bettingRound.getBetValue(), bettingPlayerCursor);
+        revealingRound = new RevealingRound(players, bettingRound.getBetValue(), bettingPlayerCursor);
         return revealingRound.runRound();
     }
 

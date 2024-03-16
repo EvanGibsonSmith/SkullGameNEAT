@@ -1,26 +1,15 @@
 package src.game_objects;
 
 public class BettingRound {
-    BettingRoundPlayer[] players;
+    Player[] players;
     int maxBet; // number of cards on table
     int currBet = 0;
     int cursor;
 
     public BettingRound(Player[] players, int maxBet, int cursor) {
-        this.players = new BettingRoundPlayer[players.length];
-        for (int i=0; i<players.length; ++i) {
-            this.players[i] = players[i].getBettingRoundPlayer();
-        }
-        this.maxBet = maxBet;
-        this.cursor = cursor;
-    }
-
-    public BettingRound(BettingRoundPlayer[] players, int maxBet, int cursor) {
         this.players = players;
         this.maxBet = maxBet;
         this.cursor = cursor;
-
-        // TODO sanity check to make sure if cursor if within player range if I'm feeling benevolent?
     }
 
     public int getBetValue() {
@@ -40,10 +29,10 @@ public class BettingRound {
         }
 
         // force first player to bet a value
-        System.out.println("Player " + cursor);
-        players[cursor].decide(true, currBet, maxBet); 
+        System.out.println("Player " + players[cursor].getName());
+        players[cursor].getBettingRoundPlayer().decide(true, currBet, maxBet); 
         lastRaisingPlayer = cursor; // set this as lastRaisingPlayer (will always occur since first player must bet)
-        currBet = players[cursor].getBet();
+        currBet = players[cursor].getBettingRoundPlayer().getBet();
         incrementCursor();
 
         // if cursor==lastRaisingPlayer then we have looped without another raise
@@ -51,7 +40,7 @@ public class BettingRound {
             if (playersIn[cursor]==false) { // skip player if not in betting anymore
                 continue;
             }
-            System.out.println("Player " + cursor);
+            System.out.println("Player " + players[cursor].getName());
             boolean decision = queryPlayer(); // current bet is minimum, number of players max
             if (decision==false) { // could shorten to playersIn[cursor]=decision
                 playersIn[cursor] = false;
@@ -59,7 +48,7 @@ public class BettingRound {
             }
             else {
                 lastRaisingPlayer = cursor; // this player betted so update last raising player
-                currBet = players[cursor].getBet(); // update currentBet value
+                currBet = players[cursor].getBettingRoundPlayer().getBet(); // update currentBet value
             }
             incrementCursor();
         }
@@ -67,6 +56,6 @@ public class BettingRound {
     }
 
     public boolean queryPlayer() {
-        return players[cursor].decide(false, currBet, maxBet);
+        return players[cursor].getBettingRoundPlayer().decide(false, currBet, maxBet);
     }
 }

@@ -2,8 +2,6 @@ package src.game_objects;
 
 import java.util.Stack;
 
-import src.data_structures.MultiSet;
-
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -30,29 +28,25 @@ public class RevealingRoundPlayer {
     }
 
     // TODO: Maybe too much info passing all of the players stuff? Additionally, needing other player info here breaks pattern of other player types
-    public Set<Integer> validOptions(RevealingRoundPlayer[] players) {
-        Set<Integer> options = new HashSet<>();
-        for (int i=0; i<players.length; ++i) {
-            RevealingRoundPlayer p = players[i];
+    public Set<String> validOptions(Player[] players) {
+        Set<String> options = new HashSet<>();
+        for (Player p: players) {
             // note that own cards will be empty after automatically flipped, so no edge case needed
             if (!p.getPlayedCards().isEmpty()) {
-                options.add(i);
+                options.add(p.getName());
             }
         }
         return options;
     }
-
-    // NOTE: decideFlip and decideRemoveCard are only used in the round if this is the player doing the revealing (TODO could potentially be broken up more? it is reasonably simple as is)
-    public int decideFlip(RevealingRoundPlayer[] players) { // TODO implemented by different strategies? make interface later?
+    public String decide(Player[] players) { // TODO implemented by different strategies? make interface later?
         Scanner scnr = new Scanner(System.in);
-        System.out.println("Please input the index of the player you would like to pick.");
-        Set<Integer> validOptions = validOptions(players);
-        int decision = scnr.nextInt();
+        System.out.println("Please input the name of the player you would like to pick.");
+        Set<String> validOptions = validOptions(players);
+        String decision = scnr.nextLine();
         while (!validOptions.contains(decision)) {
             System.out.println("That is not a valid option, please enter another option");
-            decision = scnr.nextInt();
+            decision = scnr.nextLine();
         }
-        // TODO catch incorrect outputs
         //scnr.close(); TODO not closing right now (which isn't great) so user can continue to give inputs
         return decision;
     }

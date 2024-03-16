@@ -17,7 +17,7 @@ public class TestFullRound {
         // print player information
         for (int i=0; i<players.length; ++i) { // not showing played cards since they are returned to hand
             Player p = players[i]; 
-            System.out.println("Player " + i);
+            System.out.println("Player " + p.getName());
             System.out.println("\t Hand: " + p.getHand());
             System.out.println("\t Points " + p.getPoints());
         }
