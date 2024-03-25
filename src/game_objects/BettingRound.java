@@ -4,7 +4,7 @@ public class BettingRound {
     Player[] players;
     int maxBet; // number of cards on table
     int currBet = 0;
-    int cursor;
+    int cursor; // TODO rework so that lastPlayer is more like cursor, as that is more its function at the moment
 
     public BettingRound(Player[] players, int maxBet, int cursor) {
         this.players = players;
@@ -20,6 +20,10 @@ public class BettingRound {
         cursor = (cursor + 1) % players.length;
     }
 
+    public int getCursor() {
+        return this.cursor;
+    }
+
     public int runRound() {
         int lastRaisingPlayer = -1; // keep track so when round ends we know who must guess
         boolean[] playersIn = new boolean[players.length];
@@ -30,7 +34,8 @@ public class BettingRound {
 
         // force first player to bet a value
         System.out.println("Player " + players[cursor].getName());
-        players[cursor].getBettingRoundPlayer().decide(true, currBet, maxBet); 
+        // if bet is not above the size of the played cards of a player, they must bet at least the number of cards they have played
+        players[cursor].getBettingRoundPlayer().decide(true, Math.max(currBet, players[cursor].getPlayedCards().size()-1), maxBet); 
         lastRaisingPlayer = cursor; // set this as lastRaisingPlayer (will always occur since first player must bet)
         currBet = players[cursor].getBettingRoundPlayer().getBet();
         incrementCursor();
@@ -56,6 +61,6 @@ public class BettingRound {
     }
 
     public boolean queryPlayer() {
-        return players[cursor].getBettingRoundPlayer().decide(false, currBet, maxBet);
+        return players[cursor].getBettingRoundPlayer().decide(false, Math.max(currBet, players[cursor].getPlayedCards().size()-1), maxBet);
     }
 }

@@ -17,7 +17,7 @@ public class PlacingRound {
     }
 
     private void decrementCursor() {
-        cursor = (cursor - 1) % players.length;
+        cursor = (cursor + (players.length-1)) % players.length; // loops around to decrement
     }
 
     // TODO complete me (should this be automatically  fonr within the constructor)

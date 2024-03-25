@@ -4,8 +4,6 @@ public class FullRound {
     PlacingRound placingRound;
     BettingRound bettingRound;
     RevealingRound revealingRound;
-
-    // TODO below needed as instance variables? Probably, it makes sense through OO logic but look back when not jet lagged
     Player[] players;
     int cursor;
 
@@ -13,14 +11,18 @@ public class FullRound {
         this.players = players;
         this.cursor = startingPlayerCursor; // initial cursor to start placing round
     }
+
+    public int getCursor() {
+        return this.cursor;
+    }
     
     public void runRound() {
         runPlacingRound(); // each of these sets up player variables properly
-        int bettingPlayerCursor = runBettingRound(); // need output to know which player is flipping for point
-        boolean success = runRevealingRound(bettingPlayerCursor);
+        runBettingRound(); // need updated cursor to know which player is flipping for point
+        boolean success = runRevealingRound(); // uses cursor from bettingRound to be on proper player
         if (!success) {
             // TODO these broken up playes might be kind of clunky. Maybe put all functions within player class that is composition of parts
-            players[bettingPlayerCursor].getRemoveRoundPlayer().removeCard(); // removeCard includes decision from player
+            players[cursor].getRemoveRoundPlayer().removeCard(); // removeCard includes decision from player
         }
     }
 
@@ -38,14 +40,14 @@ public class FullRound {
         cursor = placingRound.getCursor(); // update cursor field for bettingRound
     }
 
-    private int runBettingRound() {
+    private void runBettingRound() {
         bettingRound = new BettingRound(players, getNumPlayedCards(), cursor); 
-        return bettingRound.runRound();
+        cursor = bettingRound.runRound();
     }
 
-    private boolean runRevealingRound(int bettingPlayerCursor) {
-        revealingRound = new RevealingRound(players, bettingRound.getBetValue(), bettingPlayerCursor);
-        return revealingRound.runRound();
+    private boolean runRevealingRound() {
+        revealingRound = new RevealingRound(players, bettingRound.getBetValue(), cursor);
+        return revealingRound.runRound(); // cursor doesn't need to change since revealing round is just on one player
     }
 
 

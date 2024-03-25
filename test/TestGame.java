@@ -7,9 +7,10 @@ public class TestGame {
     
     public static void main(String[] args) {
         Player[] players = new Player[3];
-        for (int i=0; i<players.length; ++i) {
-            players[i] = new Player("Name " + (i+1));
-        }
+        players[0] = new Player("Alice");
+        players[1] = new Player("Bob");
+        players[2] = new Player("Eve");
+
         Game game = new Game(players, 0);
         game.runGame();
         

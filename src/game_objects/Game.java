@@ -75,6 +75,7 @@ public class Game {
         while (!isWinner()) {
             FullRound newRound = new FullRound(activePlayers, startingPlayerCursor);
             newRound.runRound();
+            startingPlayerCursor = newRound.getCursor(); // get the new starting player for next round
             rounds.add(newRound); // stores information for this round if needed
             rebuildActivePlayers();
         }
