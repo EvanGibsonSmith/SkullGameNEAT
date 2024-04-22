@@ -8,22 +8,39 @@ public class PlacingRound {
         this.players = players;
         this.cursor = startingPlayer;
     }
-    
+
     public int getCursor() {return cursor;}
 
-    // TODO document? Simple but could probably use it
+    /**
+     * Increments the cursor from this player to the next, looping
+     * around the player array as needed.
+     * 
+     * @returns void, increments internal cursor
+     */
     private void incrementCursor() {
         cursor = (cursor + 1) % players.length;
     }
 
+    /**
+     * Decrements the cursor from this player to the previous, looping
+     * around the player array as needed.
+     * 
+     * @return void, increments internal cursor
+     */
     private void decrementCursor() {
         cursor = (cursor + (players.length-1)) % players.length; // loops around to decrement
     }
 
-    // TODO complete me (should this be automatically  fonr within the constructor)
+    /**
+     * Runs the placing round, looping through the players until 
+     * everybody has finished placing cards. This is done by querying the player objects
+     * for their decisions, keeping track of if we are done yet. 
+     * 
+     * Assumes that the players have not placed any cards already (each of their stacks are empty).
+     * 
+     * @return void but configures the player objects instance variables of placing round
+     */
     public void runRound() {
-        // start with starting player and then cycle.
-        // initially, all stacks should be empty (this is assumed) TODO document this
         boolean placingRoundOverFlag = false; // raised when player decides, players cannot choose invalid options, so this is safe
         while (!placingRoundOverFlag) {
             System.out.println("Player " + players[cursor].getName());
@@ -53,7 +70,10 @@ public class PlacingRound {
         return true;
     }
     
-    // TODO document. Returns flag if PlacingRound is over.
+    /**
+     * 
+     * @return
+     */
     private boolean queryPlayer() {
         return players[cursor].getPlacingRoundPlayer().decide(canEndPlacingRound()); // chooseCard adds that card to players stack
     }

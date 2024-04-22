@@ -4,7 +4,7 @@ public class BettingRound {
     Player[] players;
     int maxBet; // number of cards on table
     int currBet = 0;
-    int cursor; // TODO rework so that lastPlayer is more like cursor, as that is more its function at the moment
+    int cursor; 
 
     public BettingRound(Player[] players, int maxBet, int cursor) {
         this.players = players;
@@ -57,7 +57,7 @@ public class BettingRound {
             }
             incrementCursor();
         }
-        return lastRaisingPlayer; // TODO consider having this be a field in the class that can then be gotten with a getter
+        return lastRaisingPlayer;
     }
 
     public boolean queryPlayer() {

@@ -1,9 +1,11 @@
 package src.game_objects;
 
+import java.lang.IllegalArgumentException;
+
 public class Card {
     String type;
 
-    // TODO add check for if it is within valid types (skull or flower)
+    // TODO add check for if it is within valid types (skull or flower). It makes the rest of this quite messy...
     public Card(String type) {
         this.type = type;
     }

@@ -7,7 +7,7 @@ public class RevealingRound {
     Player[] players;
     HashMap<String, Integer> nameToIndex = new HashMap<>();
     int playerBetAmount;
-    int cursor; // cursor does not change, since there is only one player revealing TODO make constant
+    final int cursor; // cursor does not change, since there is only one player revealing
     // TODO make successful a field? Might make more sense
 
     public RevealingRound(Player[] players, int playerBetAmount, int cursor) {
@@ -19,7 +19,11 @@ public class RevealingRound {
         this.cursor = cursor;
     }
     
-    // TODO document, helper for runRound(). Returns if successful
+    /**
+     * Helper function for the runRound method, returning if flipping the cards of 
+     * other players was successful or not to determine if to reward points or remove a card.
+     * @return
+     */
     private boolean flipCards() {
         // flip all of own cards first
         Stack<Card> ownStack = players[cursor].getPlayedCards();
@@ -42,10 +46,22 @@ public class RevealingRound {
         return true;
     }
 
-    // TODO document, potentially, helper for runRound(), ran when succesful
-    private void incrementPoints() {players[cursor].getRevealingRoundPlayer().incrementPoints();}
+    /**
+     * Increments the points for the current player pointed at by the cursor.
+     * This player is then given a point (maximum of 2).
+     */
+    private void incrementPoints() {players[cursor].getRevealingRoundPlayer().incrementPoints();} // TODO kind of weird to use getRevealingRoundPlayer() for this? probably not an issue but slightly weird
 
-    // TODO does not cover that the player must flip their OWN card first
+    /**
+     * Runs the revealing round, assuming players have placed their cards.
+     * This is done by revealing the cards chosen by the player than is doing the revealing.
+     * This player in the player pointed to by cursor. The player is queried to determine
+     * their choies. Then, based on the success of flipping these cards points are rewarded. If not succesful, 
+     * the returned value of runRound can be used to force the player object to remove a card.
+     * Then, all cards from other players are returned to their hands as they are no longer of use.
+     * 
+     * @return boolean representing if the player was successful (no skulls) or unsuccesful (skull flipped)
+     */
     public boolean runRound() {
         boolean successful = flipCards();
         if (successful) {
@@ -58,6 +74,11 @@ public class RevealingRound {
         return successful;
     }
 
+    /**
+     * Queries the player to decide which choice to make pertaining
+     * to the revealing round.
+     * @return
+     */
     private String queryPlayer() {
         return players[cursor].getRevealingRoundPlayer().decide(players); // chooseCard adds that card to players stack
     }

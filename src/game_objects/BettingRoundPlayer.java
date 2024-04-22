@@ -26,7 +26,6 @@ public class BettingRoundPlayer {
         return options;
     }
     
-    // TODO make this return the int instead of boolean of success?
     public boolean decide(boolean beganBetting, int currentBet, int maxBet) {
         Scanner scnr = new Scanner(System.in);
         System.out.println("What would you like to bet? (must be above current value of " 

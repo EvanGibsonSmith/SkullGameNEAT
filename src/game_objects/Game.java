@@ -46,7 +46,12 @@ public class Game {
         return false;
     }
 
-    // TODO document gets the number of active players to build active players array
+    /**
+     * Gets the number of active players (ones that haven't lost) still in the game.
+     * This is to say players with non empty hands.
+     * 
+     * @return int of numActivePlayers
+     */
     private int numActivePlayers() {
         int numActive = 0;
         for (Player p: players) {
@@ -57,7 +62,14 @@ public class Game {
         return numActive;
     }
 
-    // TODO document, but creates a list of active players with no gaps for next round
+    /**
+     * Rebuilds the active players array, removing players that are inactive. This new array 
+     * has no gaps of inactive players. Each individual player object may be in a new index within the 
+     * array because of the removal of players who now have empty hands (are inactive). 
+     * Naturally, the ordering is still correct.
+     * 
+     * @return void, but sets the activePlayers for this class to the proper players.
+     */
     private void rebuildActivePlayers() {
         // build active player
         this.activePlayers = new Player[numActivePlayers()];
@@ -71,6 +83,12 @@ public class Game {
         }
     }
 
+    /**
+     * Runs the skull game, running through each of the rounds. 
+     * These rounds are added to the instance variable rounds.
+     * 
+     * @returns void but updates the rounds and player objects accordingly
+     */
     public void runGame() {
         while (!isWinner()) {
             FullRound newRound = new FullRound(activePlayers, startingPlayerCursor);

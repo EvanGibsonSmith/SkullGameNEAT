@@ -15,7 +15,6 @@ public class RemoveRoundPlayer {
 
     public Hand getHand() {return this.hand;}
 
-    // TODO create removal round player as well, so each player has one validOptions and decide function.
     public Set<Integer> validOptions() {
         Set<Integer> options = new HashSet<>();
         MultiSet<Card> cards = hand.getMultiSet();
@@ -29,7 +28,7 @@ public class RemoveRoundPlayer {
         Card removalCard = null;
         switch (cardRemoveType) {
             case 0:
-                removalCard = new Card("skull"); // TODO instead of skull and flower card just make a card with field of either skull or flower since there are no methods to differentiate the two
+                removalCard = new Card("skull");
                 break;
             case 1:
                 removalCard = new Card("flower");

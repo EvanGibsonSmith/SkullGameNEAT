@@ -21,7 +21,6 @@ public class FullRound {
         runBettingRound(); // need updated cursor to know which player is flipping for point
         boolean success = runRevealingRound(); // uses cursor from bettingRound to be on proper player
         if (!success) {
-            // TODO these broken up playes might be kind of clunky. Maybe put all functions within player class that is composition of parts
             players[cursor].getRemoveRoundPlayer().removeCard(); // removeCard includes decision from player
         }
     }

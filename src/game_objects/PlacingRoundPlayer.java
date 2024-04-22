@@ -18,7 +18,6 @@ public class PlacingRoundPlayer {
         this.playedCards = playedCards;
     }
 
-    // TODO is this extra constructor useful?
     public PlacingRoundPlayer(Hand hand) {
         this.hand = hand;
         playedCards = new Stack<>();
