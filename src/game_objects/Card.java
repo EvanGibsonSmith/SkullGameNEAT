@@ -1,7 +1,5 @@
 package src.game_objects;
 
-import java.lang.IllegalArgumentException;
-
 public class Card {
     String type;
 

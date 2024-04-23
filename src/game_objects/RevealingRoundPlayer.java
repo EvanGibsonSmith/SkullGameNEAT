@@ -3,13 +3,9 @@ package src.game_objects;
 import java.util.Stack;
 
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
-// TODO make simple interface for all Round types since they all have decide and queryPlayer? However, return types are different.
-// adding to this, these classes should probably be mostly used within player, each of them being an abstract class with their own 
-// decide method unimplemented for two extending classes (AI vs TerminalPlayer) to extend.
-public class RevealingRoundPlayer {
+public abstract class RevealingRoundPlayer {
     Hand hand;
     int points = 0; // TODO make these private instead of protected? (goes for many of these classes)
     Stack<Card> playedCards;
@@ -41,19 +37,6 @@ public class RevealingRoundPlayer {
         return options;
     }
 
-    public String decide(Player[] players) {
-        Scanner scnr = new Scanner(System.in);
-        System.out.println("Please input the name of the player you would like to pick.");
-        Set<String> validOptions = validOptions(players);
-        String decision = scnr.nextLine();
-        while (!validOptions.contains(decision)) {
-            System.out.println("That is not a valid option, please enter another option");
-            decision = scnr.nextLine();
-        }
-        //scnr.close(); TODO not closing right now (which isn't great) so user can continue to give inputs
-        return decision;
-    }
-
     /**
      * Flips the top card of this player, used to reveal to other players..
      * @return true if top card skull, false if flower.
@@ -69,4 +52,6 @@ public class RevealingRoundPlayer {
             hand.addCard(playedCards.pop());
         }
     }
+
+    public abstract String decide(Player[] players);
 }

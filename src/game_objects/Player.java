@@ -26,10 +26,24 @@ public class Player {
     public Player(String name, Hand hand) {
         this.name = name;
         this.hand = hand;
-        this.placingRoundPlayer = new PlacingRoundPlayer(hand, playedCards);
-        this.bettingRoundPlayer = new BettingRoundPlayer();
-        this.revealingRoundPlayer = new RevealingRoundPlayer(hand, playedCards);
-        this.removeRoundPlayer = new RemoveRoundPlayer(hand);
+        this.placingRoundPlayer = new PlacingRoundPlayerTerminal(hand, playedCards);
+        this.bettingRoundPlayer = new BettingRoundPlayerTerminal();
+        this.revealingRoundPlayer = new RevealingRoundPlayerTerminal(hand, playedCards);
+        this.removeRoundPlayer = new RemoveRoundPlayerTerminal(hand);
+    }
+
+    
+    public Player(String name, Hand hand, String type) {
+        this.name = name;
+        this.hand = hand;
+        // set type of internal players
+        if (type=="terminal") {
+            this.placingRoundPlayer = new PlacingRoundPlayerTerminal(hand, playedCards);
+            this.bettingRoundPlayer = new BettingRoundPlayerTerminal();
+            this.revealingRoundPlayer = new RevealingRoundPlayerTerminal(hand, playedCards);
+            this.removeRoundPlayer = new RemoveRoundPlayerTerminal(hand);
+        }
+        // TODO add NEAT type when created
     }
 
     public String getName() {

@@ -5,14 +5,12 @@ import java.util.Stack;
 import src.data_structures.MultiSet;
 
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
-public class PlacingRoundPlayer {
+public abstract class PlacingRoundPlayer {
     Hand hand;
     Stack<Card> playedCards;
 
-    // TODO potentially protected so that it can be used in player to tie these together but not elsewhere?
     public PlacingRoundPlayer(Hand hand, Stack<Card> playedCards) {
         this.hand = hand;
         this.playedCards = playedCards;
@@ -52,7 +50,11 @@ public class PlacingRoundPlayer {
         return optionsOutput;
     }
 
-    // TODO document. TODO catch exception potentially throws by popCard if there is no flower/skull and it is played
+    /**
+     * Places the card based on if a skull or not. Does not catch exceptions.
+     * 
+     * @param isSkull if the card to place from the hand is a skull
+     */
     public void placeCard(boolean isSkull) {
         Card toPlay = popCard(isSkull);
         playedCards.add(toPlay);
@@ -63,7 +65,7 @@ public class PlacingRoundPlayer {
         if (isSkull==0) {isSkullBoolean=true;}
         else if (isSkull==1) {isSkullBoolean=false;}
         else {
-            // TODO handle this, invalid case
+            // TODO handle this, invalid case. For now not catching exceptions
         }
         placeCard(isSkullBoolean);
     }
@@ -78,27 +80,5 @@ public class PlacingRoundPlayer {
         return validOptions;
     }
 
-    // TODO potentially make this an abstract class so that this chooseCard can be extended? Right now it can just be overridden which should also be fine
-    // TODO document. Returns flag for if PlacingRound was ended by this player.
-    public boolean decide(boolean canBeginBetting) { // TODO make this catch exception if the choice they made isn't valid thrown by placeCard
-        Set<Integer> validOptions = validOptions(canBeginBetting);
-    
-        // for human player this is just querying to the terminal, could be implemneted by other players in other ways
-        Scanner scnr = new Scanner(System.in);
-        System.out.println("Would you like to play Skull, Flower, or begin betting round? Type 0 for skull, 1 for flower and 2 for beginning betting round");
-        int decision = scnr.nextInt();
-        //scnr.close(); TODO not closing right now (which isn't great) so user can continue to give inputs
-        while (!validOptions.contains(decision)) {
-            System.out.println("That is not a valid option, please enter another option");
-            decision = scnr.nextInt();
-        }
-        // process decision
-        if (decision==2) {
-            return true; // placing round over flag is raised
-        }
-        else {
-            placeCard(decision);
-        }
-        return false;
-    }
+    public abstract boolean decide(boolean canBeginBetting);
 }
