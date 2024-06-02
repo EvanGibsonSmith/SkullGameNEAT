@@ -65,7 +65,7 @@ public abstract class PlacingRoundPlayer {
         if (isSkull==0) {isSkullBoolean=true;}
         else if (isSkull==1) {isSkullBoolean=false;}
         else {
-            // TODO handle this, invalid case. For now not catching exceptions
+            throw new IllegalArgumentException("isSkull must be 0 or 1");
         }
         placeCard(isSkullBoolean);
     }
@@ -80,5 +80,5 @@ public abstract class PlacingRoundPlayer {
         return validOptions;
     }
 
-    public abstract boolean decide(boolean canBeginBetting);
+    public abstract int decide(boolean canBeginBetting);
 }

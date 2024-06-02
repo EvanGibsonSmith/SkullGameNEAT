@@ -41,13 +41,16 @@ public class PlacingRound {
      * @return void but configures the player objects instance variables of placing round
      */
     public void runRound() {
-        boolean placingRoundOverFlag = false; // raised when player decides, players cannot choose invalid options, so this is safe
-        while (!placingRoundOverFlag) {
+        int decision = -1; // decision is which card to place, or if 2, to exit
+        while (true) { // breaks when decision is 2
             System.out.println("Player " + players[cursor].getName());
-            placingRoundOverFlag = queryPlayer(); // new player does turn
+            decision = queryPlayer(); // new player does turn
+            if (decision==2) {
+                break; // notice this skips incrementing cursor, so that it remains on this player for betting round
+            }
+            players[cursor].getPlacingRoundPlayer().placeCard(decision); // place correct card type
             incrementCursor(); // move to next player
         }
-        decrementCursor(); // decrement cursor it points to final placement
     }
 
     /**
@@ -74,7 +77,7 @@ public class PlacingRound {
      * 
      * @return
      */
-    private boolean queryPlayer() {
+    private int queryPlayer() {
         return players[cursor].getPlacingRoundPlayer().decide(canEndPlacingRound()); // chooseCard adds that card to players stack
     }
 }

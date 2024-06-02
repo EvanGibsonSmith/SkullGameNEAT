@@ -60,6 +60,7 @@ public class BettingRound {
         return lastRaisingPlayer;
     }
 
+    // TODO add a check to make sure the decision is valid?
     public boolean queryPlayer() {
         return players[cursor].getBettingRoundPlayer().decide(false, Math.max(currBet, players[cursor].getPlayedCards().size()-1), maxBet);
     }

@@ -34,7 +34,7 @@ public class FullRound {
     }
 
     private void runPlacingRound() {
-        placingRound = new PlacingRound(players, cursor); // TODO can just use normal players now
+        placingRound = new PlacingRound(players, cursor);
         placingRound.runRound(); // updates proper player variables
         cursor = placingRound.getCursor(); // update cursor field for bettingRound
     }
