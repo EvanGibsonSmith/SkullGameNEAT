@@ -21,7 +21,7 @@ public class FullRound {
         runBettingRound(); // need updated cursor to know which player is flipping for point
         boolean success = runRevealingRound(); // uses cursor from bettingRound to be on proper player
         if (!success) {
-            players[cursor].getRemoveRoundPlayer().removeCard(); // removeCard includes decision from player
+            players[cursor].getRemoveRoundPlayer().removeCard(players); // removeCard includes decision from player
         }
     }
 

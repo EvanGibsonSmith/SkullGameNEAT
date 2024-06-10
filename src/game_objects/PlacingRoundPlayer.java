@@ -10,14 +10,17 @@ import java.util.Set;
 public abstract class PlacingRoundPlayer {
     Hand hand;
     Stack<Card> playedCards;
+    String name;
 
-    public PlacingRoundPlayer(Hand hand, Stack<Card> playedCards) {
+    public PlacingRoundPlayer(Hand hand, Stack<Card> playedCards, String name) {
         this.hand = hand;
         this.playedCards = playedCards;
+        this.name = name;
     }
 
-    public PlacingRoundPlayer(Hand hand) {
+    public PlacingRoundPlayer(Hand hand, String name) {
         this.hand = hand;
+        this.name = name;
         playedCards = new Stack<>();
     }
 
@@ -70,6 +73,15 @@ public abstract class PlacingRoundPlayer {
         placeCard(isSkullBoolean);
     }
 
+    // NOTE: Could remove if not super useful
+    public Set<Integer> totalOptions() {
+        Set<Integer> allOptions = new HashSet<>();
+        allOptions.add(0);
+        allOptions.add(1);
+        allOptions.add(2);
+        return allOptions;
+    }
+
     // NOTE: potentially could rework so that card objects are in set, but likely clunkier
     public Set<Integer> validOptions(boolean canBeginBetting) { 
         Set<Integer> validOptions = new HashSet<>();
@@ -80,5 +92,5 @@ public abstract class PlacingRoundPlayer {
         return validOptions;
     }
 
-    public abstract int decide(boolean canBeginBetting);
+    public abstract int decide(Player[] players, boolean canBeginBetting);
 }

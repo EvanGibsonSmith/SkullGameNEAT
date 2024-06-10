@@ -2,6 +2,7 @@ package test;
 
 import src.game_objects.BettingRound;
 import src.game_objects.Player;
+import src.game_objects.TerminalPlayer;
 
 // NOTE: This "test" is just running it and using debugger and terminal verifying it is working as intended
 public class TestBettingRound {
@@ -9,7 +10,7 @@ public class TestBettingRound {
     public static void main(String[] args) {
         Player[] players = new Player[3];
         for (int i=0; i<players.length; ++i) {
-            players[i] = new Player();
+            players[i] = new TerminalPlayer();
         }
         BettingRound round = new BettingRound(players, 3, 0); // Pretend 3 cards were played (as max value allowed to bet)
         int bettingRoundWinnerCursor = round.runRound();

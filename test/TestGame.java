@@ -1,15 +1,16 @@
 package test;
 
 import src.game_objects.Game;
+import src.game_objects.NEATPlayer;
 import src.game_objects.Player;
+import src.game_objects.TerminalPlayer;
 
 public class TestGame {
     
     public static void main(String[] args) {
-        Player[] players = new Player[3];
-        players[0] = new Player("Alice");
-        players[1] = new Player("Bob");
-        players[2] = new Player("Eve");
+        Player[] players = new Player[2];
+        players[0] = new NEATPlayer("Alice", 13);
+        players[1] = new TerminalPlayer("Bob");
 
         Game game = new Game(players, 0);
         game.runGame();
@@ -23,6 +24,7 @@ public class TestGame {
         }
         System.out.println("Winner Info!");
         Player winner = game.getWinner();
+        System.out.println("\t Hand: " + winner.getName());
         System.out.println("\t Hand: " + winner.getHand());
         System.out.println("\t Points: " + winner.getPoints());
     }

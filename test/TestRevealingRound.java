@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import src.game_objects.Player;
 import src.game_objects.RevealingRound;
+import src.game_objects.TerminalPlayer;
 
 
 public class TestRevealingRound {
@@ -17,7 +18,7 @@ public class TestRevealingRound {
     public static void main(String[] args) {
         Player[] players = new Player[3];
         for (int i=0; i<players.length; ++i) {
-            players[i] = new Player();
+            players[i] = new TerminalPlayer();
         }
         players[0].getPlacingRoundPlayer().placeCard(false);
         players[1].getPlacingRoundPlayer().placeCard(false);
@@ -45,7 +46,7 @@ public class TestRevealingRound {
     void flipOwnCard() {
         Player[] players = new Player[3];
         for (int i=0; i<players.length; ++i) {
-            players[i] = new Player();
+            players[i] = new TerminalPlayer();
             players[i].getPlacingRoundPlayer().placeCard(false); // every player has played a flower
         }
 
@@ -66,7 +67,7 @@ public class TestRevealingRound {
     void flipOwnCards() {
         Player[] players = new Player[3];
         for (int i=0; i<players.length; ++i) {
-            players[i] = new Player();
+            players[i] = new TerminalPlayer();
             players[i].getPlacingRoundPlayer().placeCard(false); // every player has played a flower
         }
         players[1].getPlacingRoundPlayer().placeCard(false); // player 1 has two flowers
@@ -98,7 +99,7 @@ public class TestRevealingRound {
     void flipOneOtherPlayerSuccess() {
         Player[] players = new Player[3];
         for (int i=0; i<players.length; ++i) {
-            players[i] = new Player();
+            players[i] = new TerminalPlayer();
         }
         players[0].getPlacingRoundPlayer().placeCard(false); // player 0 flower
         players[1].getPlacingRoundPlayer().placeCard(true); // player 1 skull

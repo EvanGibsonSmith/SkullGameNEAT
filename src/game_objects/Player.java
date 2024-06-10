@@ -2,7 +2,7 @@ package src.game_objects;
 
 import java.util.Stack;
 
-public class Player {
+public abstract class Player {
     String name;
     Hand hand; 
     Stack<Card> playedCards = new Stack<>();
@@ -21,33 +21,27 @@ public class Player {
 
     public Player(String name) {
         this(name, new Hand());
+        
     }
 
     public Player(String name, Hand hand) {
         this.name = name;
         this.hand = hand;
-        this.placingRoundPlayer = new PlacingRoundPlayerTerminal(hand, playedCards);
-        this.bettingRoundPlayer = new BettingRoundPlayerTerminal();
-        this.revealingRoundPlayer = new RevealingRoundPlayerTerminal(hand, playedCards);
-        this.removeRoundPlayer = new RemoveRoundPlayerTerminal(hand);
+        setupRoundPlayers(); // TODO: check if this not being initialized causes issues.
     }
 
-    
-    public Player(String name, Hand hand, String type) {
-        this.name = name;
-        this.hand = hand;
-        // set type of internal players
-        if (type=="terminal") {
-            this.placingRoundPlayer = new PlacingRoundPlayerTerminal(hand, playedCards);
-            this.bettingRoundPlayer = new BettingRoundPlayerTerminal();
-            this.revealingRoundPlayer = new RevealingRoundPlayerTerminal(hand, playedCards);
-            this.removeRoundPlayer = new RemoveRoundPlayerTerminal(hand);
-        }
-        // TODO add NEAT type when created
-    }
+    public abstract void setupRoundPlayers();
 
     public String getName() {
         return this.name;
+    }
+
+    @Override
+    public boolean equals(Object obj) { // player names must be equal to be equal players
+        if (!(obj instanceof Player)) {
+            return false;
+        }
+        return ((Player) obj).getName().equals(this.getName());
     }
     
     public PlacingRoundPlayer getPlacingRoundPlayer() {
@@ -77,5 +71,4 @@ public class Player {
     public Stack<Card> getPlayedCards() {
         return this.playedCards;
     }
-  
 }

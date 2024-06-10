@@ -5,8 +5,8 @@ import java.util.Set;
 
 public class RemoveRoundPlayerTerminal extends RemoveRoundPlayer {
 
-    public RemoveRoundPlayerTerminal(Hand hand) {
-        super(hand);
+    public RemoveRoundPlayerTerminal(Hand hand, String name) {
+        super(hand, name);
     }
     
     /**
@@ -15,7 +15,8 @@ public class RemoveRoundPlayerTerminal extends RemoveRoundPlayer {
      * 
      * @return int representing which card to remove, 0 for skull, 1 for flower
      */
-    public int decide() {
+    @Override
+    public int decide(Player[] players) {
         Scanner scnr = new Scanner(System.in);
         System.out.println("Please input type of card to remove. 0 for skull, 1 for flower.");
         Set<Integer> validOptions = validOptions();

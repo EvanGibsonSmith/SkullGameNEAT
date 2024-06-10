@@ -3,21 +3,27 @@ package src.game_objects;
 import java.util.Stack;
 
 public class Game {
-    int startingPlayerCursor;
+    int startingPlayerCursor = 0;
     Player[] players; // total players of the game, regardless of out or not
     Player[] activePlayers; // players stil within the game. 
     Player winner;
     Stack<FullRound> rounds = new Stack<>(); // might not technically need to track rounds, but they are nice to have for info
 
-    public Game(Player[] players, int startingPlayerCursor) {
+    public Game(Player[] players) {
         this.players = players;
         this.activePlayers = players;
+    }
+
+    public Game(Player[] players, int startingPlayerCursor) {
+        this(players);
         this.startingPlayerCursor = startingPlayerCursor;
     }
 
     public Player getWinner() {
         return winner;
     }
+
+    public Player[] getPlayers() {return this.players;}
 
     private void setWinner() {
         for (Player p: players) { // technically speaking, could probably iterate through ActivePlayers instead
@@ -96,7 +102,65 @@ public class Game {
             startingPlayerCursor = newRound.getCursor(); // get the new starting player for next round
             rounds.add(newRound); // stores information for this round if needed
             rebuildActivePlayers();
+            // EDGE CASE: if starting cursor was final player and they were removed, set back to zero for next player to play
+            // otherwise, the next cursor position correctly moves to the next player
+            if (startingPlayerCursor==activePlayers.length) { // if at final person, shift to 0 for player to left to play next
+                startingPlayerCursor = 0;
+            }
         }
         setWinner();
+    }
+
+    /**
+     * @param args Usage is numPlayers, player1Name, player2Name, player3Name, playerNName, type (either terminal or NEAT)
+     */
+    public static void main(String[] args) {
+        // Ran game for terminal, now using this to run NEAT setup
+        /*if (args.length==0) {
+            System.out.println("Usage: <numPlayers> [player1Name] [player2Name] [player3Name] [playerName] [type]");
+            System.exit(1);
+        }
+        int numPlayers = Integer.parseInt(args[0]);
+        Player[] players = new Player[numPlayers];
+        String type = "terminal"; // default
+        if (args.length==2+numPlayers || args.length==2) { // in these cases, type has been included
+            type = args[args.length-1];
+        }
+
+        if (args.length==1 || args.length==2) { // if no player names given
+            for (int i=0; i<numPlayers; ++i) {
+                players[i] = new TerminalPlayer("Player" + i);
+            }
+        }
+        else if (args.length==2+numPlayers || args.length==1+numPlayers) { // if each player given a name
+            for (int i=0; i<numPlayers; ++i) {
+                players[i] = new TerminalPlayer(args[i+1]);
+                System.out.println(players[i]);
+            }
+        }
+        else {
+            System.out.println("Usage: <numPlayers> [player1Name] [player2Name] [player3Name] [playerName] [type]");
+            System.exit(1);
+        }*/
+        
+        // setup NEAT players
+        if (args.length==0) {
+            System.out.println("Usage: <numPlayers> <player1Name> <player1GenomeID> ... <playerNName> <playerNGenomeID>");
+            System.exit(2);
+        }
+        int numPlayers = Integer.parseInt(args[0]);
+        if (args.length!=numPlayers*2+1) {
+            System.out.println("Usage: <numPlayers> <player1Name> <player1GenomeID> ... <playerNName> <playerNGenomeID>");
+            System.exit(3);
+        }
+        
+        Player[] players = new Player[numPlayers];
+        for (int i=0; i<numPlayers; ++i) {
+            players[i] = new NEATPlayer(args[i*2+1], Integer.parseInt(args[i*2+2])); // Gets players in format give (name then id after numPlayers)
+        }
+
+        // run game
+        Game game = new Game(players);
+        game.runGame();
     }
 }

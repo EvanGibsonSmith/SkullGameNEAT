@@ -43,7 +43,6 @@ public class PlacingRound {
     public void runRound() {
         int decision = -1; // decision is which card to place, or if 2, to exit
         while (true) { // breaks when decision is 2
-            System.out.println("Player " + players[cursor].getName());
             decision = queryPlayer(); // new player does turn
             if (decision==2) {
                 break; // notice this skips incrementing cursor, so that it remains on this player for betting round
@@ -74,10 +73,10 @@ public class PlacingRound {
     }
     
     /**
-     * 
+     * Queries the player at the current cursor location for a decision
      * @return
      */
     private int queryPlayer() {
-        return players[cursor].getPlacingRoundPlayer().decide(canEndPlacingRound()); // chooseCard adds that card to players stack
+        return players[cursor].getPlacingRoundPlayer().decide(players, canEndPlacingRound()); // chooseCard adds that card to players stack
     }
 }

@@ -35,7 +35,7 @@ public class BettingRound {
         // force first player to bet a value
         System.out.println("Player " + players[cursor].getName());
         // if bet is not above the size of the played cards of a player, they must bet at least the number of cards they have played
-        players[cursor].getBettingRoundPlayer().decide(true, Math.max(currBet, players[cursor].getPlayedCards().size()-1), maxBet); 
+        players[cursor].getBettingRoundPlayer().decide(players, true, Math.max(currBet, players[cursor].getPlayedCards().size()-1), maxBet); 
         lastRaisingPlayer = cursor; // set this as lastRaisingPlayer (will always occur since first player must bet)
         currBet = players[cursor].getBettingRoundPlayer().getBet();
         incrementCursor();
@@ -57,11 +57,17 @@ public class BettingRound {
             }
             incrementCursor();
         }
+
+        // set all bets back to -1
+        for (Player player: players) {
+            player.getBettingRoundPlayer().bet = -1; // TODO could make this set bet or something instead?
+        }
+
         return lastRaisingPlayer;
     }
 
     // TODO add a check to make sure the decision is valid?
     public boolean queryPlayer() {
-        return players[cursor].getBettingRoundPlayer().decide(false, Math.max(currBet, players[cursor].getPlayedCards().size()-1), maxBet);
+        return players[cursor].getBettingRoundPlayer().decide(players, false, Math.max(currBet, players[cursor].getPlayedCards().size()-1), maxBet);
     }
 }

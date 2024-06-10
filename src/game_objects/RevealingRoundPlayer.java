@@ -9,10 +9,12 @@ public abstract class RevealingRoundPlayer {
     Hand hand;
     int points = 0; // TODO make these private instead of protected? (goes for many of these classes)
     Stack<Card> playedCards;
+    String name;
 
-    public RevealingRoundPlayer(Hand hand, Stack<Card> playedCards) {
+    public RevealingRoundPlayer(Hand hand, Stack<Card> playedCards, String name) {
         this.hand = hand;
         this.playedCards = playedCards;
+        this.name = name;
     }
     
     public Hand getHand() {return this.hand;}
@@ -25,7 +27,6 @@ public abstract class RevealingRoundPlayer {
         if (points<2) {++points;}
     }
 
-    // TODO: Maybe too much info passing all of the players stuff? Additionally, needing other player info here breaks pattern of other player types
     public Set<String> validOptions(Player[] players) {
         Set<String> options = new HashSet<>();
         for (Player p: players) {
