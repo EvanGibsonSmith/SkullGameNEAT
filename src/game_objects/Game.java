@@ -5,7 +5,7 @@ import java.util.Stack;
 
 public class Game {
     int startingPlayerCursor = 0;
-    Player[] players; // total players of the game, regardless of out or not
+    final Player[] players; // total players of the game, regardless of out or not
     Player[] activePlayers; // players stil within the game. 
     Player winner;
     Stack<FullRound> rounds = new Stack<>(); // might not technically need to track rounds, but they are nice to have for info
@@ -57,10 +57,10 @@ public class Game {
      * 
      * @return int of numActivePlayers
      */
-    private int numActivePlayers() {
+    public static int numActivePlayers(Player[] players) {
         int numActive = 0;
         for (Player p: players) {
-            if (!p.getHand().empty()) {
+            if (!(p.getHand().empty() & p.getPlayedCards().empty())) {
                 ++numActive;
             }
         }
@@ -75,17 +75,18 @@ public class Game {
      * 
      * @return void, but sets the activePlayers for this class to the proper players.
      */
-    private void rebuildActivePlayers() {
+    public static Player[] getActivePlayers(Player[] players) {
         // build active player
-        this.activePlayers = new Player[numActivePlayers()];
+        Player[] activePlayers = new Player[numActivePlayers(players)];
         int newActivePlayersCursor = 0;
         for (int i=0; i<players.length; ++i) { // don't need to consider already inactive players
             Player player = players[i];
-            if (!player.getHand().empty()) { // add player to newActivePlayers
+            if (!(player.getHand().empty() & player.getPlayedCards().empty())) { // add player to newActivePlayers if they have cards
                 activePlayers[newActivePlayersCursor] = player;
                 ++newActivePlayersCursor;
             }
         }
+        return activePlayers;
     }
 
     /**
@@ -100,11 +101,11 @@ public class Game {
         }
 
         while (!isWinner()) {
-            FullRound newRound = new FullRound(activePlayers, startingPlayerCursor);
+            FullRound newRound = new FullRound(players, startingPlayerCursor); // NOTE: round gets all players, but really only works with activePlayers
             newRound.runRound();
             startingPlayerCursor = newRound.getCursor(); // get the new starting player for next round
             rounds.add(newRound); // stores information for this round if needed
-            rebuildActivePlayers();
+            this.activePlayers = getActivePlayers(players);
             // EDGE CASE: if starting cursor was final player and they were removed, set back to zero for next player to play
             // otherwise, the next cursor position correctly moves to the next player
             if (startingPlayerCursor==activePlayers.length) { // if at final person, shift to 0 for player to left to play next

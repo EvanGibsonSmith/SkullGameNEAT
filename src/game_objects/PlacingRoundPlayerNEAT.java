@@ -52,7 +52,7 @@ public class PlacingRoundPlayerNEAT extends PlacingRoundPlayer {
     @Override
     public int decide(Player[] players, boolean canBeginBetting) { 
         buildHashMap();
-        Double[] neatResults = NEATFunctions.getNEATOutput(players, name, 1, genomeID); // 1 is the PlacingRound phase
+        Double[] neatResults = NEATFunctions.getNEATOutput(players, name, 0, genomeID); // 0 is the PlacingRound phase
         Set<Integer> choices = validOptions(canBeginBetting);
         fitness -= NEATFunctions.badSelectionFitness(neatResults, outputIndexes, choices); // based on error, update fitness from invalid choices
         return NEATFunctions.selectBestValidOptions(neatResults, outputIndexes, choices); // actually make decision based on which are valid

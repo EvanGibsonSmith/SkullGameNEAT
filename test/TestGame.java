@@ -8,12 +8,13 @@ import src.game_objects.TerminalPlayer;
 public class TestGame {
     
     public static void main(String[] args) {
-        Player[] players = new Player[2];
-        players[0] = new NEATPlayer("Alice", 2);
-        players[1] = new NEATPlayer("Bob", 2);
+        Player[] players = new Player[3];
+        players[0] = new NEATPlayer("Alice", 5);
+        players[1] = new NEATPlayer("Bob", 7);
+        players[2] = new NEATPlayer("Eve", 9);
 
-        for (int l=0; l<1000; ++l) {
-            Game game = new Game(players);
+        for (int l=0; l<10; ++l) {
+            Game game = new Game(players, 0);
             game.runGame();
             
             // print player information

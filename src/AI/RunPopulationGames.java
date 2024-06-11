@@ -13,7 +13,7 @@ import src.game_objects.Player;
 public class RunPopulationGames {
 
     public static void main(String[] args) {
-        int numGenomes = Integer.parseInt(args[0]);
+        int numGenomes = Integer.parseInt("4");
         Player[] players = new Player[numGenomes];
         // add new NEAT players for each genomes
         for (int i=0; i<players.length; ++i) {
@@ -24,12 +24,14 @@ public class RunPopulationGames {
         // TODO take every possible combination of 2 player games, with each starting player so 19800
         for (Player p1: players) {
             for (Player p2: players) {
-                if (!p1.equals(p2)) {
-                    // since order of players will be in both orderings, starting player cursor covers both
-                    Game nextGame = new Game(new Player[] {p1, p2}, 0); // take those two random players
-                    games.add(nextGame);
-                    nextGame.runGame(); // run game and add proper fitness to each participating player
-                    // TODO check if player is not being reset!!! After game finished before next game
+                for (Player p3: players) {
+                    if (!p1.equals(p2) && !p2.equals(p3) && !p3.equals(p1)) {
+                        // since order of players will be in both orderings, starting player cursor covers both
+                        Game nextGame = new Game(new Player[] {p1, p2, p3}); // take those two random players
+                        games.add(nextGame);
+                        nextGame.runGame(); // run game and add proper fitness to each participating player
+                        // TODO check if player is not being reset!!! After game finished before next game
+                    }
                 }
             }
         }

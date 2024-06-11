@@ -31,9 +31,9 @@ public abstract class RevealingRoundPlayer {
         this.points = 0;
     }
 
-    public Set<String> validOptions(Player[] players) {
+    public Set<String> validOptions(Player[] activePlayers) {
         Set<String> options = new HashSet<>();
-        for (Player p: players) {
+        for (Player p: activePlayers) {
             // note that own cards will be empty after automatically flipped, so no edge case needed
             if (!p.getPlayedCards().isEmpty()) {
                 options.add(p.getName());

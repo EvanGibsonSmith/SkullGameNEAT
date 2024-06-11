@@ -47,7 +47,7 @@ public class BettingRoundPlayerNEAT extends BettingRoundPlayer {
     @Override
     public boolean decide(Player[] players, boolean beganBetting, int currentBet, int maxBet) {
         buildHashMap(players.length); // only build it once, but players are needed for nodes
-        Double[] neatResults = NEATFunctions.getNEATOutput(players, name, 0, genomeID); // 0 is the BettingRound phase
+        Double[] neatResults = NEATFunctions.getNEATOutput(players, name, 1, genomeID); // 1 is the BettingRound phase
         Set<Integer> choices = validOptions(beganBetting, currentBet, maxBet);
         fitness -= NEATFunctions.badSelectionFitness(neatResults, outputIndexes, choices); // based on error, update fitness from invalid choices
         int bettingOutput = NEATFunctions.selectBestValidOptions(neatResults, outputIndexes, choices); // actually make decision based on which are valid

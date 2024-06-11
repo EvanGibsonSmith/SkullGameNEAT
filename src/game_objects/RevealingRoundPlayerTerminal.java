@@ -17,13 +17,14 @@ public class RevealingRoundPlayerTerminal extends RevealingRoundPlayer {
      * Decision for which card to reveal, using the terminal to query the player.
      * The players are passed in so that we can pick the player to reveal the card of.
      * 
-     * @param players array of all of the players
+     * @param players array of all of the players (including inactive)
      * @return a string of the name of the player that will be selected
      */
     public String decide(Player[] players) {
+        Player[] activePlayers = Game.getActivePlayers(players);
         Scanner scnr = new Scanner(System.in);
         System.out.println("Please input the name of the player you would like to pick.");
-        Set<String> validOptions = validOptions(players);
+        Set<String> validOptions = validOptions(activePlayers);
         String decision = scnr.nextLine();
         while (!validOptions.contains(decision)) {
             System.out.println("That is not a valid option, please enter another option");

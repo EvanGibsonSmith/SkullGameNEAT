@@ -33,6 +33,7 @@ public class RevealingRoundPlayerNEAT extends RevealingRoundPlayer {
                 ++playerIndex;
             }
             outputIndexes.put(outputIndex, players[playerIndex].getName());
+            ++playerIndex;
         } 
     }
 
@@ -44,25 +45,16 @@ public class RevealingRoundPlayerNEAT extends RevealingRoundPlayer {
      * Decision for which card to reveal, using the terminal to query the player.
      * The players are passed in so that we can pick the player to reveal the card of.
      * 
-     * @param players array of all of the players
+     * @param players array of all of the players (including inactive)
      * @return a string of the name of the player that will be selected
      */
     @Override
     public String decide(Player[] players) {
+        Player[] activePlayers = Game.getActivePlayers(players);
         buildHashMap(players); // only build it once, but players are needed for nodes
         Double[] neatResults = NEATFunctions.getNEATOutput(players, name, 2, genomeID); // 2 is phrase for RevealingRound
-        Set<String> choices = validOptions(players);
-        System.out.println("Players");
-        for (Player p: players) {
-            if (p.getRevealingRoundPlayer().equals(this)) {
-                System.out.println("\t This Player: " + p.getName());
-            }
-            else {
-                System.out.println("\t" + p.getName());
-            }
-        }
-        System.out.println("Choices: " +  choices);
-        System.out.println("Hash Map: " + outputIndexes);
+        Set<String> choices = validOptions(activePlayers);
+        System.out.println("Valid Choices :" + choices);
         fitness -= NEATFunctions.badSelectionFitness(neatResults, outputIndexes, choices); // based on error, update fitness from invalid choices
         return NEATFunctions.selectBestValidOptions(neatResults, outputIndexes, choices); // actually make decision based on which are valid
     }

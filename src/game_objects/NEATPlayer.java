@@ -1,5 +1,11 @@
 package src.game_objects;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
 public class NEATPlayer extends Player  {
     int genomeID = -1;
     double fitnessMultiplier = 100;

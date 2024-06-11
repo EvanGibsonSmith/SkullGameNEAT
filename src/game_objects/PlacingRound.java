@@ -1,11 +1,13 @@
 package src.game_objects;
 
 public class PlacingRound {
-    int cursor = -1;
+    int cursor = -1; // cursor is cursor within array of active players
     Player[] players;
+    Player[] activePlayers;
 
     public PlacingRound(Player[] players, int startingPlayer) {
         this.players = players;
+        this.activePlayers = Game.getActivePlayers(players);
         this.cursor = startingPlayer;
     }
 
@@ -18,7 +20,7 @@ public class PlacingRound {
      * @returns void, increments internal cursor
      */
     private void incrementCursor() {
-        cursor = (cursor + 1) % players.length;
+        cursor = (cursor + 1) % activePlayers.length;
     }
 
     /**
@@ -28,7 +30,7 @@ public class PlacingRound {
      * @return void, increments internal cursor
      */
     private void decrementCursor() {
-        cursor = (cursor + (players.length-1)) % players.length; // loops around to decrement
+        cursor = (cursor + (activePlayers.length-1)) % activePlayers.length; // loops around to decrement
     }
 
     /**
@@ -47,7 +49,7 @@ public class PlacingRound {
             if (decision==2) {
                 break; // notice this skips incrementing cursor, so that it remains on this player for betting round
             }
-            players[cursor].getPlacingRoundPlayer().placeCard(decision); // place correct card type
+            activePlayers[cursor].getPlacingRoundPlayer().placeCard(decision); // place correct card type
             incrementCursor(); // move to next player
         }
     }
@@ -63,7 +65,7 @@ public class PlacingRound {
      * @return boolean, if the player cursor points to has the ability to shift into the betting round
      */
     public boolean canEndPlacingRound() {
-        for (Player p: players) {
+        for (Player p: activePlayers) {
             PlacingRoundPlayer placingRoundPlayer = p.getPlacingRoundPlayer();
             if (placingRoundPlayer.getStackSize()==0) { // if any player has no cards played, cannot end round, otherwise yes
                 return false;
@@ -77,6 +79,6 @@ public class PlacingRound {
      * @return
      */
     private int queryPlayer() {
-        return players[cursor].getPlacingRoundPlayer().decide(players, canEndPlacingRound()); // chooseCard adds that card to players stack
+        return activePlayers[cursor].getPlacingRoundPlayer().decide(players, canEndPlacingRound()); // chooseCard adds that card to players stack
     }
 }

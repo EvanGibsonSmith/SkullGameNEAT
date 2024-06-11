@@ -5,10 +5,12 @@ public class FullRound {
     BettingRound bettingRound;
     RevealingRound revealingRound;
     Player[] players;
-    int cursor;
+    Player[] activePlayers;
+    int cursor; // cursor is cursor of active players
 
     public FullRound(Player[] players, int startingPlayerCursor) {
         this.players = players;
+        this.activePlayers = Game.getActivePlayers(players);
         this.cursor = startingPlayerCursor; // initial cursor to start placing round
     }
 
@@ -21,13 +23,13 @@ public class FullRound {
         runBettingRound(); // need updated cursor to know which player is flipping for point
         boolean success = runRevealingRound(); // uses cursor from bettingRound to be on proper player
         if (!success) {
-            players[cursor].getRemoveRoundPlayer().removeCard(players); // removeCard includes decision from player
+            activePlayers[cursor].getRemoveRoundPlayer().removeCard(players); // removeCard includes decision from player
         }
     }
 
     public int getNumPlayedCards() {
         int sum = 0;
-        for (Player p: players) {
+        for (Player p: activePlayers) {
             sum += p.getPlayedCards().size();
         }
         return sum;

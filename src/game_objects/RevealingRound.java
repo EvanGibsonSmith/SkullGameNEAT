@@ -5,15 +5,16 @@ import java.util.Stack;
 
 public class RevealingRound {
     Player[] players;
+    Player[] activePlayers;
     HashMap<String, Integer> nameToIndex = new HashMap<>();
     int playerBetAmount;
-    final int cursor; // cursor does not change, since there is only one player revealing
-    // TODO make successful a field? Might make more sense
+    final int cursor; // cursor does not change, since there is only one player revealing. Refers to active players
 
     public RevealingRound(Player[] players, int playerBetAmount, int cursor) {
         this.players = players;
-        for (int i=0; i<players.length; ++i) {
-            nameToIndex.put(players[i].getName(), i);
+        this.activePlayers = Game.getActivePlayers(players);
+        for (int i=0; i<activePlayers.length; ++i) {
+            nameToIndex.put(activePlayers[i].getName(), i);
         }
         this.playerBetAmount = playerBetAmount;
         this.cursor = cursor;
@@ -26,10 +27,10 @@ public class RevealingRound {
      */
     private boolean flipCards() {
         // flip all of own cards first
-        Stack<Card> ownStack = players[cursor].getPlayedCards();
+        Stack<Card> ownStack = activePlayers[cursor].getPlayedCards();
         int initialOwnStackSize = ownStack.size();
         while (!ownStack.empty()) {
-            boolean isOwnCardSkull = players[cursor].getRevealingRoundPlayer().flip(); // flip the player that needs to guess
+            boolean isOwnCardSkull = activePlayers[cursor].getRevealingRoundPlayer().flip(); // flip the player that needs to guess
             if (isOwnCardSkull) { // if first card was skull, short circuit, otherwise let player start guessing
                 return false; 
             }
@@ -38,7 +39,7 @@ public class RevealingRound {
         for (int flipCount=0; flipCount<playerBetAmount-initialOwnStackSize; ++flipCount) {
             String decision = queryPlayer(); // TODO does not catch if the player has no cards to flip
             int decisionIndex = nameToIndex.get(decision);
-            boolean isFlippedSkull = players[decisionIndex].getRevealingRoundPlayer().flip(); 
+            boolean isFlippedSkull = activePlayers[decisionIndex].getRevealingRoundPlayer().flip(); 
             if (isFlippedSkull) { // short circuit exit if a skull is flipped
                 return false;
             }
@@ -50,7 +51,7 @@ public class RevealingRound {
      * Increments the points for the current player pointed at by the cursor.
      * This player is then given a point (maximum of 2).
      */
-    private void incrementPoints() {players[cursor].getRevealingRoundPlayer().incrementPoints();} // TODO kind of weird to use getRevealingRoundPlayer() for this? probably not an issue but slightly weird
+    private void incrementPoints() {activePlayers[cursor].getRevealingRoundPlayer().incrementPoints();} // TODO kind of weird to use getRevealingRoundPlayer() for this? probably not an issue but slightly weird
 
     /**
      * Runs the revealing round, assuming players have placed their cards.
@@ -68,7 +69,7 @@ public class RevealingRound {
             incrementPoints();
         }
         // return cards to players
-        for (Player p: players) {
+        for (Player p: activePlayers) {
             p.getRevealingRoundPlayer().returnCards();
         }
         return successful;
@@ -80,6 +81,6 @@ public class RevealingRound {
      * @return
      */
     private String queryPlayer() {
-        return players[cursor].getRevealingRoundPlayer().decide(players); // chooseCard adds that card to players stack
+        return activePlayers[cursor].getRevealingRoundPlayer().decide(players); // chooseCard adds that card to players stack
     }
 }
