@@ -16,6 +16,10 @@ public class RemoveRoundPlayerNEAT extends RemoveRoundPlayer {
         this.genomeID = genomeID;
     }
 
+    public void reset() {
+        outputIndexes.clear();
+    }
+    
     // TODO could potentially reorganize so whole HashMap is built somewhere rather than in chunks?
     private void buildHashMap(Player[] players) { // just uses the last 2 nodes
         int n = players.length;

@@ -48,6 +48,4 @@ public class FullRound {
         revealingRound = new RevealingRound(players, bettingRound.getBetValue(), cursor);
         return revealingRound.runRound(); // cursor doesn't need to change since revealing round is just on one player
     }
-
-
 }

@@ -18,16 +18,21 @@ public class PlacingRoundPlayerNEAT extends PlacingRoundPlayer {
     public PlacingRoundPlayerNEAT(Hand hand, Stack<Card> playedCards, String name, int genomeID) {
         super(hand, playedCards, name);
         this.genomeID = genomeID;
-        buildHashMap();
     }
 
     public PlacingRoundPlayerNEAT(Hand hand, String name, int genomeID) {
         super(hand, name);
         this.genomeID = genomeID;
-        buildHashMap();
+    }
+
+    public void reset() {
+        outputIndexes.clear(); // clear HashMap, ready to be built for next game
     }
 
     private void buildHashMap() {
+        if (!outputIndexes.isEmpty()) { // don't built if already built
+            return;
+        }
         outputIndexes.put(0, 0); // first output corresponds to placing flower
         outputIndexes.put(1, 1); // second output corresponds to placing skull (1 comes from decisions)
         outputIndexes.put(2, 2); // third output corresponds to ending the placing round (2)

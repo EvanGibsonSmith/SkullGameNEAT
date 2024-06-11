@@ -7,7 +7,7 @@ import java.util.Set;
 
 public abstract class RevealingRoundPlayer {
     Hand hand;
-    int points = 0; // TODO make these private instead of protected? (goes for many of these classes)
+    int points = 0; // TODO should this be in the larger player class?
     Stack<Card> playedCards;
     String name;
 
@@ -25,6 +25,10 @@ public abstract class RevealingRoundPlayer {
 
     public void incrementPoints() {
         if (points<2) {++points;}
+    }
+
+    public void resetPoints() {
+        this.points = 0;
     }
 
     public Set<String> validOptions(Player[] players) {

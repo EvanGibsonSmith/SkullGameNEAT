@@ -16,6 +16,10 @@ public abstract class BettingRoundPlayer {
         return this.bet;
     }
 
+    public void resetBet() {
+        this.bet = 0;
+    }
+
     public Set<Integer> validOptions(boolean beganBetting, int currentBet, int maxBet) {
         Set<Integer> options = new HashSet<>();
         for (int b=currentBet+1; b<=maxBet; ++b) {

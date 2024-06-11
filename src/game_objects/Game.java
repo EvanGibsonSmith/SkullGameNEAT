@@ -33,11 +33,7 @@ public class Game {
             if (p.getPoints()>=2) { // to have 2 points should already be active player
                 winner = p;
             }
-            // if only one player left they win be default.
-            // Technically speaking, this rule is not needed because the player 
-            // could play a flower, then win following betting round. 
-            // NOTE: Potentially, removing this rule could litmus test for AI strategy for 1 player games
-            if (activePlayers.length==1) {
+            else if (activePlayers.length==1) {
                 winner = activePlayers[0];
             }
         }
@@ -48,7 +44,7 @@ public class Game {
             if (p.getPoints()>=2) {
                 return true;
             }
-            if (activePlayers.length==1) { // if only one player left, win by default
+            else if (activePlayers.length==1) { // if only one player left, win by default
                 return true;
             }
         }
@@ -99,6 +95,10 @@ public class Game {
      * @returns void but updates the rounds and player objects accordingly
      */
     public void runGame() {
+        for (Player p: players) {
+            p.resetCards(); // set up player hand and points for this game
+        }
+
         while (!isWinner()) {
             FullRound newRound = new FullRound(activePlayers, startingPlayerCursor);
             newRound.runRound();
@@ -112,6 +112,11 @@ public class Game {
             }
         }
         setWinner();
+        getWinner().incrementWonGames(); // add a won game to the winning player
+        // add played game to all players
+        for (Player p: players) {
+            p.incrementGamesPlayed();
+        }
     }
 
     /**
@@ -166,6 +171,5 @@ public class Game {
         Game game = new Game(players);
         game.runGame();
         // add game to winner
-        ((NEATPlayer) game.getWinner()).incrementWonGames();
     }
 }

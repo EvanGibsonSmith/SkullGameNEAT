@@ -11,6 +11,7 @@ public abstract class Player {
     RevealingRoundPlayer revealingRoundPlayer;
     RemoveRoundPlayer removeRoundPlayer;
     int wonGames = 0; // number of games won
+    int gamesPlayed = 0;
 
     public Player() {
         this("Default", new Hand()); // initializes player with new full hand/default name
@@ -25,6 +26,10 @@ public abstract class Player {
         
     }
 
+    public int getGamesPlayed() {
+        return gamesPlayed;
+    }
+
     public int getWonGames() {
         return wonGames;
     }
@@ -33,10 +38,24 @@ public abstract class Player {
         ++wonGames;
     }
 
+    public void incrementGamesPlayed() {
+        ++gamesPlayed;
+    }
+
+    /**
+     * Sets player up to play another
+     */
+    public void resetCards() {
+        this.hand.build(); // new hand
+        this.playedCards.clear(); // clear stack
+        this.getRevealingRoundPlayer().resetPoints(); // reset points back to 0 for new game
+        this.getBettingRoundPlayer().resetBet(); // reset bet if somehow bet was not 0
+    }
+
     public Player(String name, Hand hand) {
         this.name = name;
         this.hand = hand;
-        setupRoundPlayers(); // TODO: check if this not being initialized causes issues.
+        setupRoundPlayers();
     }
 
     protected abstract void setupRoundPlayers();

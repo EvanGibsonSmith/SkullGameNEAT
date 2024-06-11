@@ -6,6 +6,10 @@ public class Hand {
     MultiSet<Card> hand;
 
     public Hand() {
+        build();
+    }
+
+    public void build() {
         hand = new MultiSet<>();
         for (int i=0; i<3; ++i) {
             hand.add(new Card("flower"));

@@ -134,7 +134,7 @@ public class NEATFunctions {
                 Stack<Card> cards = (Stack<Card>) player.getPlayedCards().clone();
                 
                 // one hot encode cards
-                for (int cardAmount=1; cardAmount<=4; ++cardAmount) {
+                for (int cardAmount=0; cardAmount<=4; ++cardAmount) {
                     if (cardAmount==stackCards) {
                         thisPlayerInfo.add(1.0);
                     }
@@ -145,7 +145,7 @@ public class NEATFunctions {
 
                 // one hot encode hand size TODO make one hot encoding function to handle all of this stuff
                 int handSize = player.getPlacingRoundPlayer().getHand().size();
-                for (int handSizeValue=1; handSizeValue<=4; ++handSizeValue) {
+                for (int handSizeValue=0; handSizeValue<=4; ++handSizeValue) {
                     if (handSizeValue==handSize) {
                         thisPlayerInfo.add(1.0);
                     }
@@ -187,7 +187,7 @@ public class NEATFunctions {
                 }
 
                 int stackCards = player.getPlacingRoundPlayer().getStackSize();
-                for (int cardAmount=1; cardAmount<=4; ++cardAmount) {
+                for (int cardAmount=0; cardAmount<=4; ++cardAmount) {
                     if (cardAmount==stackCards) {
                         otherPlayersInfo.add(1.0);
                     }
@@ -197,7 +197,7 @@ public class NEATFunctions {
                 }
 
                 int handSize = player.getPlacingRoundPlayer().getHand().size();
-                for (int handSizeValue=1; handSizeValue<=4; ++handSizeValue) {
+                for (int handSizeValue=0; handSizeValue<=4; ++handSizeValue) {
                     if (handSizeValue==handSize) {
                         otherPlayersInfo.add(1.0);
                     }

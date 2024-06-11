@@ -15,6 +15,10 @@ public class BettingRoundPlayerNEAT extends BettingRoundPlayer {
         this.genomeID = genomeID;
     }
 
+    public void reset() {
+        outputIndexes.clear(); // clear HashMap, ready to be built for next game
+    }
+
     private void buildHashMap(int numPlayers) {
         if (!outputIndexes.isEmpty()) { // don't built if already built
             return;

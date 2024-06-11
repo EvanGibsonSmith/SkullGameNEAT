@@ -17,6 +17,10 @@ public class RevealingRoundPlayerNEAT extends RevealingRoundPlayer {
         this.genomeID = genomeID;
     }
 
+    public void reset() {
+        outputIndexes.clear(); // clear HashMap, ready to be built for next game
+    }
+
     // TODO could potentially reorganize so whole HashMap is built somewhere rather than in chunks?
     private void buildHashMap(Player[] players) {
         int n = players.length;
@@ -48,6 +52,17 @@ public class RevealingRoundPlayerNEAT extends RevealingRoundPlayer {
         buildHashMap(players); // only build it once, but players are needed for nodes
         Double[] neatResults = NEATFunctions.getNEATOutput(players, name, 2, genomeID); // 2 is phrase for RevealingRound
         Set<String> choices = validOptions(players);
+        System.out.println("Players");
+        for (Player p: players) {
+            if (p.getRevealingRoundPlayer().equals(this)) {
+                System.out.println("\t This Player: " + p.getName());
+            }
+            else {
+                System.out.println("\t" + p.getName());
+            }
+        }
+        System.out.println("Choices: " +  choices);
+        System.out.println("Hash Map: " + outputIndexes);
         fitness -= NEATFunctions.badSelectionFitness(neatResults, outputIndexes, choices); // based on error, update fitness from invalid choices
         return NEATFunctions.selectBestValidOptions(neatResults, outputIndexes, choices); // actually make decision based on which are valid
     }

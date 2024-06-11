@@ -20,6 +20,15 @@ public class NEATPlayer extends Player  {
     }
     
     @Override
+    public void resetCards() {
+        super.resetCards(); // reset cards, but also internal HashMaps for each player
+        ((PlacingRoundPlayerNEAT) this.placingRoundPlayer).reset();
+        ((BettingRoundPlayerNEAT) this.bettingRoundPlayer).reset();
+        ((RevealingRoundPlayerNEAT) this.revealingRoundPlayer).reset();
+        ((RemoveRoundPlayerNEAT) this.removeRoundPlayer).reset();
+    }
+
+    @Override
     protected void setupRoundPlayers() {
         this.placingRoundPlayer = new PlacingRoundPlayerNEAT(hand, playedCards, name, genomeID);
         this.bettingRoundPlayer = new BettingRoundPlayerNEAT(name, genomeID);
