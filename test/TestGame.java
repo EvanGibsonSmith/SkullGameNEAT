@@ -8,12 +8,9 @@ import src.game_objects.TerminalPlayer;
 public class TestGame {
     
     public static void main(String[] args) {
-        Player[] players = new Player[4];
-        // TODO make this a test, but a nice sanity check is that two players with the same genome, flip winner based on who is first and have flipped fitness values
-        players[0] = new NEATPlayer("Alice", 3); 
-        players[1] = new NEATPlayer("Bob", 3);
-        players[2] = new NEATPlayer("Eve", 3);
-        players[3] = new NEATPlayer("Zack", 3);
+        Player[] players = new Player[2];
+        players[0] = new NEATPlayer("Alice", 13);
+        players[1] = new TerminalPlayer("Bob");
 
         Game game = new Game(players);
         game.runGame();
