@@ -11,6 +11,9 @@ public class BettingRoundPlayerTerminal extends BettingRoundPlayer {
     // TODO would it be helpful to reorganize such that every decide function takes in the players array like the removal player
     // so we can get any information needed in the decide function?
 
+    public BettingRoundPlayerTerminal(String name) {
+        super(name);
+    }
     /**
      * Decision for which card to play, using scanner to query from player in console.
      * 
@@ -20,7 +23,7 @@ public class BettingRoundPlayerTerminal extends BettingRoundPlayer {
      *               possible be won.
      * @return boolean on if this player ended the round or not.
      */
-    public boolean decide(boolean beganBetting, int currentBet, int maxBet) {
+    public boolean decide(Player[] players, boolean beganBetting, int currentBet, int maxBet) {
         Scanner scnr = new Scanner(System.in);
         System.out.println("What would you like to bet? (must be above current value of " 
                             + currentBet + " and below or equal to " + maxBet + "). Can also choose not to bet (unless beginning betting round).");

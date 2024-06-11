@@ -5,9 +5,11 @@ import java.util.Set;
 
 public abstract class BettingRoundPlayer {
     int bet;
+    String name;
 
-    public BettingRoundPlayer() {
+    public BettingRoundPlayer(String name) {
         bet = -1; // initial bet, before actual value 
+        this.name = name;
     }
 
     public int getBet() {
@@ -25,6 +27,6 @@ public abstract class BettingRoundPlayer {
         return options;
     }
 
-    public abstract boolean decide(boolean beganBetting, int currentBet, int maxBet);
+    public abstract boolean decide(Player[] players, boolean beganBetting, int currentBet, int maxBet);
 
 }

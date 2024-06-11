@@ -2,12 +2,15 @@ package src.game_objects;
 
 import java.util.Scanner;
 import java.util.Stack;
+
+import src.AI.NEATFunctions;
+
 import java.util.Set;
 
 public class RevealingRoundPlayerTerminal extends RevealingRoundPlayer {
 
-    public RevealingRoundPlayerTerminal(Hand hand, Stack<Card> playedCards) {
-        super(hand, playedCards);
+    public RevealingRoundPlayerTerminal(Hand hand, Stack<Card> playedCards, String name) {
+        super(hand, playedCards, name);
     }
     
     /**
@@ -29,5 +32,4 @@ public class RevealingRoundPlayerTerminal extends RevealingRoundPlayer {
         //scnr.close(); NOTE scanner never closed
         return decision;
     }
-
 }

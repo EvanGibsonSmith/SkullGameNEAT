@@ -2,6 +2,7 @@ package test;
 
 import src.game_objects.PlacingRound;
 import src.game_objects.Player;
+import src.game_objects.TerminalPlayer;
 
 public class TestPlacingRound {
     
@@ -11,7 +12,7 @@ public class TestPlacingRound {
         Player[] players = new Player[numPlayers];
         // population players 
         for (int i=0; i<players.length; ++i) {
-            players[i] = new Player();
+            players[i] = new TerminalPlayer();
         }
 
         // get placing round players 

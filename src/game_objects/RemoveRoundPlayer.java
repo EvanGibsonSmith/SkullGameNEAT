@@ -7,9 +7,12 @@ import src.data_structures.MultiSet;
 
 public abstract class RemoveRoundPlayer {   
     Hand hand;
+    String name;
 
-    public RemoveRoundPlayer(Hand hand) {
+    // TODO for all of these classes, can add equality function dictating in code that the same names within a game a the same players
+    public RemoveRoundPlayer(Hand hand, String name) {
         this.hand = hand;
+        this.name = name;
     }
 
     public Hand getHand() {return this.hand;}
@@ -22,8 +25,8 @@ public abstract class RemoveRoundPlayer {
         return options;
     }
 
-    public void removeCard() {
-        int cardRemoveType = decide();
+    public void removeCard(Player[] players) {
+        int cardRemoveType = decide(players);
         Card removalCard = null;
         switch (cardRemoveType) {
             case 0:
@@ -32,14 +35,13 @@ public abstract class RemoveRoundPlayer {
             case 1:
                 removalCard = new Card("flower");
                 break;
-
             default:
                 break;
         }
         hand.removeCard(removalCard);
     }
 
-    public abstract int decide();
+    public abstract int decide(Player[] players);
     
 }
 

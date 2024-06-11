@@ -2,6 +2,7 @@ package test;
 
 import src.game_objects.FullRound;
 import src.game_objects.Player;
+import src.game_objects.TerminalPlayer;
 
 public class TestFullRound {
     
@@ -9,7 +10,7 @@ public class TestFullRound {
     public static void main(String[] args) {
         Player[] players = new Player[2];
         for (int i=0; i<players.length; ++i) {
-            players[i] = new Player();
+            players[i] = new TerminalPlayer();
         }
         FullRound round = new FullRound(players, 0);
         round.runRound();

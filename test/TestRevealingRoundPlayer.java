@@ -23,7 +23,7 @@ public class TestRevealingRoundPlayer {
         Stack<Card> playedCards = new Stack<>();
         playedCards.add(new Card("skull"));
         // this player has all of their card, and placed a skull
-        RevealingRoundPlayer player = new RevealingRoundPlayerTerminal(hand, playedCards);
+        RevealingRoundPlayer player = new RevealingRoundPlayerTerminal(hand, playedCards, "RevealingRoundPlayer0");
         assertTrue(player.flip()); // player has skull on top, so true
     }
 
@@ -36,7 +36,7 @@ public class TestRevealingRoundPlayer {
         Stack<Card> playedCards = new Stack<>();
         playedCards.add(new Card("flower"));
         // this player has 3 of their cards, and placed a flower
-        RevealingRoundPlayer player = new RevealingRoundPlayerTerminal(hand, playedCards);
+        RevealingRoundPlayer player = new RevealingRoundPlayerTerminal(hand, playedCards, "RevealingRoundPlayer1");
         assertEquals(player.getHand().size(), 2);
         assertFalse(player.flip()); // player has flower on top, so false
         assertEquals(player.getHand().size(), 3); // returned to hand
@@ -52,7 +52,7 @@ public class TestRevealingRoundPlayer {
         playedCards.add(new Card("skull"));
         playedCards.add(new Card("flower"));
         // this player has all of their cards, placed skull on BOTTOM, then flower
-        RevealingRoundPlayer player = new RevealingRoundPlayerTerminal(hand, playedCards);
+        RevealingRoundPlayer player = new RevealingRoundPlayerTerminal(hand, playedCards, "RevealingRoundPlayer2");
         assertEquals(player.getHand().size(), 2);
         assertFalse(player.flip()); // player has flower on top, so false
         // now that flipped card has been returned to hand
