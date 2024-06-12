@@ -23,8 +23,15 @@ public abstract class Player {
 
     public Player(String name) {
         this(name, new Hand());
-        
     }
+    
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    @Override
+    public String toString() {return getName();}
 
     public int getGamesPlayed() {
         return gamesPlayed;

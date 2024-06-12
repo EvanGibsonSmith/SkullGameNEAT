@@ -24,7 +24,7 @@ public class NEATPlayer extends Player  {
         this.genomeID = genomeID;
         setupRoundPlayers();
     }
-    
+
     @Override
     public void resetCards() {
         super.resetCards(); // reset cards, but also internal HashMaps for each player

@@ -64,6 +64,7 @@ public class NEATFunctions {
     }
 
     public static Double[] getNEATOutput(Player[] players, String name, int phase, int genomeID) {
+
         Double[] inputs = getNEATParameterInputs(players, name, phase); // uses this to give to AI inputs for decision
         String socketString = socketInput(genomeID, inputs);
         try {
@@ -79,7 +80,7 @@ public class NEATFunctions {
             return parseNEATOutput(line);
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
-            throw new Error("Socket did not connect or work properly");
+            throw new Error("Socket did not connect or work properly or Reader/Writer error");
         }
     }
 

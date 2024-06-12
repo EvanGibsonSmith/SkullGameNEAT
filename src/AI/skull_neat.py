@@ -44,16 +44,16 @@ class RunNEAT:
         # Set up socket
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.bind(('localhost', 9999))
-        self.socket.listen(5)
+        self.socket.listen(1000)
         print("Server started. Listening on port 9999...")
 
         # TODO put multiple sockets so that the requests can both be handled?
         while True: # TODO not running socket right now, will need to have it running on thread, waiting for java requests
             conn, addr = self.socket.accept()
             print(f"Connection established from {addr}")
-            request = conn.recv(1024).decode()
+            request = conn.recv(4096).decode()
+            print(request)
             jsonRequest = json.loads(request) 
-            print(jsonRequest)
             response = self.run_model(jsonRequest[0], jsonRequest[1]) # TODO replace this real response in but just testing for now
 
             print("Response: " + str(response))
