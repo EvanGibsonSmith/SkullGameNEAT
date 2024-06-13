@@ -29,7 +29,7 @@ public class PlacingRoundPlayerNEAT extends PlacingRoundPlayer {
         outputIndexes.clear(); // clear HashMap, ready to be built for next game
     }
 
-    private void buildHashMap() {
+    void buildHashMap() {
         if (!outputIndexes.isEmpty()) { // don't built if already built
             return;
         }
@@ -52,7 +52,7 @@ public class PlacingRoundPlayerNEAT extends PlacingRoundPlayer {
     @Override
     public int decide(Player[] players, boolean canBeginBetting) { 
         buildHashMap();
-        Double[] neatResults = NEATFunctions.getNEATOutput(players, name, 0, genomeID); // 0 is the PlacingRound phase
+        double[] neatResults = NEATFunctions.getNEATOutput(players, name, 0, genomeID); // 0 is the PlacingRound phase
         Set<Integer> choices = validOptions(canBeginBetting);
         fitness -= NEATFunctions.badSelectionFitness(neatResults, outputIndexes, choices); // based on error, update fitness from invalid choices
         return NEATFunctions.selectBestValidOptions(neatResults, outputIndexes, choices); // actually make decision based on which are valid
@@ -96,7 +96,7 @@ public class PlacingRoundPlayerNEAT extends PlacingRoundPlayer {
         placingRoundPlayer.placeCard(false);
 
         // have to check outputs after placing card since it changes the outputs
-        Double[] outputs = NEATFunctions.getNEATOutput(players, "Player 0", 0, ((NEATPlayer) players[0]).getGenomeID());
+        double[] outputs = NEATFunctions.getNEATOutput(players, "Player 0", 0, ((NEATPlayer) players[0]).getGenomeID());
         for (double output: outputs) {
             System.out.println(output + ",");
         }

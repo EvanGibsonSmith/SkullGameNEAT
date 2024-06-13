@@ -34,8 +34,6 @@ public class BettingRound {
             playersIn[i] = true;
         }
 
-        // force first player to bet a value
-        System.out.println("Player " + activePlayers[cursor].getName());
         // if bet is not above the size of the played cards of a player, they must bet at least the number of cards they have played
         activePlayers[cursor].getBettingRoundPlayer().decide(players, true, Math.max(currBet, activePlayers[cursor].getPlayedCards().size()-1), maxBet); 
         lastRaisingPlayer = cursor; // set this as lastRaisingPlayer (will always occur since first player must bet)

@@ -18,6 +18,7 @@ public class RemoveRoundPlayerTerminal extends RemoveRoundPlayer {
     @Override
     public int decide(Player[] players) {
         Scanner scnr = new Scanner(System.in);
+        System.out.println("It was a skull!");
         System.out.println("Please input type of card to remove. 0 for skull, 1 for flower.");
         Set<Integer> validOptions = validOptions();
         int decision = scnr.nextInt();

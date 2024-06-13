@@ -19,7 +19,7 @@ public class BettingRoundPlayerNEAT extends BettingRoundPlayer {
         outputIndexes.clear(); // clear HashMap, ready to be built for next game
     }
 
-    private void buildHashMap(int numPlayers) {
+    void buildHashMap(int numPlayers) {
         if (!outputIndexes.isEmpty()) { // don't built if already built
             return;
         }
@@ -47,7 +47,7 @@ public class BettingRoundPlayerNEAT extends BettingRoundPlayer {
     @Override
     public boolean decide(Player[] players, boolean beganBetting, int currentBet, int maxBet) {
         buildHashMap(players.length); // only build it once, but players are needed for nodes
-        Double[] neatResults = NEATFunctions.getNEATOutput(players, name, 1, genomeID); // 1 is the BettingRound phase
+        double[] neatResults = NEATFunctions.getNEATOutput(players, name, 1, genomeID); // 1 is the BettingRound phase
         Set<Integer> choices = validOptions(beganBetting, currentBet, maxBet);
         fitness -= NEATFunctions.badSelectionFitness(neatResults, outputIndexes, choices); // based on error, update fitness from invalid choices
         int bettingOutput = NEATFunctions.selectBestValidOptions(neatResults, outputIndexes, choices); // actually make decision based on which are valid
@@ -109,7 +109,7 @@ public class BettingRoundPlayerNEAT extends BettingRoundPlayer {
         players[3].getPlacingRoundPlayer().placeCard(true);
 
         // note that outputs change after placing a card.
-        Double[] outputs = NEATFunctions.getNEATOutput(players, "Player 0", 1, ((NEATPlayer) players[0]).getGenomeID());
+        double[] outputs = NEATFunctions.getNEATOutput(players, "Player 0", 1, ((NEATPlayer) players[0]).getGenomeID());
         for (double output: outputs) {
             System.out.println(output);
         }

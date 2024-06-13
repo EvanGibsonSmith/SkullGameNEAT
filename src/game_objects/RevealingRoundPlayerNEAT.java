@@ -52,9 +52,8 @@ public class RevealingRoundPlayerNEAT extends RevealingRoundPlayer {
     public String decide(Player[] players) {
         Player[] activePlayers = Game.getActivePlayers(players);
         buildHashMap(players); // only build it once, but players are needed for nodes
-        Double[] neatResults = NEATFunctions.getNEATOutput(players, name, 2, genomeID); // 2 is phrase for RevealingRound
+        double[] neatResults = NEATFunctions.getNEATOutput(players, name, 2, genomeID); // 2 is phrase for RevealingRound
         Set<String> choices = validOptions(activePlayers);
-        System.out.println("Valid Choices :" + choices);
         fitness -= NEATFunctions.badSelectionFitness(neatResults, outputIndexes, choices); // based on error, update fitness from invalid choices
         return NEATFunctions.selectBestValidOptions(neatResults, outputIndexes, choices); // actually make decision based on which are valid
     }
@@ -96,7 +95,7 @@ public class RevealingRoundPlayerNEAT extends RevealingRoundPlayer {
         players[1].getHand().removeCard((new Card("flower")));
 
         // note that outputs change after placing a card.
-        Double[] outputs = NEATFunctions.getNEATOutput(players, "Bob", 2, ((NEATPlayer) players[0]).getGenomeID());
+        double[] outputs = NEATFunctions.getNEATOutput(players, "Bob", 2, ((NEATPlayer) players[0]).getGenomeID());
         int n = players.length;
         for (int i=4+4*n; i<4+4*n+(n-1); ++i) { // relevant information
             double output = outputs[i];

@@ -153,7 +153,7 @@ public class Game {
         }*/
         
         // setup NEAT players
-        if (args.length==0) {
+        /*if (args.length==0) {
             System.out.println("Usage: <numPlayers> <player1Name> <player1GenomeID> ... <playerNName> <playerNGenomeID>");
             System.exit(2);
         }
@@ -163,14 +163,40 @@ public class Game {
             System.exit(3);
         }
         
-        Player[] players = new Player[numPlayers];
+        NEATPlayer[] players = new NEATPlayer[numPlayers];
         for (int i=0; i<numPlayers; ++i) {
             players[i] = new NEATPlayer(args[i*2+1], Integer.parseInt(args[i*2+2])); // Gets players in format give (name then id after numPlayers)
         }
 
         // run game
         Game game = new Game(players);
+        game.runGame();*/
+
+        // Usage: ["terminal" | GenomeID] ["terminal" | GenomeID] ... [startingPlayerCursor]
+        // Player NEAT player vs normal player
+        Player[] players = new Player[args.length-1];
+        for (int i=0; i<args.length-1; ++i) {
+            if (args[i].equals("terminal")) {
+                players[i] = new TerminalPlayer("Terminal" + i);
+            }
+            else {
+                players[i] = new NEATPlayerVerbose("NEAT" + i, Integer.parseInt(args[i]));
+            }
+        }
+        Game game = new Game(players, Integer.parseInt(args[args.length-1]));
         game.runGame();
-        // add game to winner
+
+        // print player information
+        for (int i=0; i<players.length; ++i) { // not showing played cards since they are returned to hand
+            Player p = players[i]; 
+            System.out.println("Player " + p.getName());
+            System.out.println("\t Hand: " + p.getHand());
+            System.out.println("\t Points " + p.getPoints());
+        }
+        System.out.println("Winner Info!");
+        Player winner = game.getWinner();
+        System.out.println("\t Name: " + winner.getName());
+        System.out.println("\t Hand: " + winner.getHand());
+        System.out.println("\t Points: " + winner.getPoints());
     }
 }

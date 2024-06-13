@@ -18,8 +18,20 @@ import src.game_objects.TerminalPlayer;
 // NOTE could all of this live within the NEATPlayer class?
 public class NEATFunctions { 
 
+    public static double[] softmax(double[] values) {
+        double softMaxTotal = 0;
+        for (double value: values) {
+            softMaxTotal += Math.exp(value);
+        }
+        double[] output = new double[values.length];
+        for (int i=0; i<values.length; ++i) {
+            output[i] = Math.exp(values[i]) / softMaxTotal;
+        }
+        return output;
+    }
+
     // TODO document
-    public static <T> double badSelectionFitness(Double[] outputs, HashMap<Integer, T> outputIndexes, Set<T> choices) {
+    public static <T> double badSelectionFitness(double[] outputs, HashMap<Integer, T> outputIndexes, Set<T> choices) {
         double fitness = 0;
         for (int outputIndex=0; outputIndex<outputs.length; ++outputIndex) {
             if (outputIndexes.containsKey(outputIndex)) { // if NOT potential choice for this round add fitness
@@ -34,14 +46,16 @@ public class NEATFunctions {
     }
     
     // TODO could this and the function below be setup more nicely with the correspondence between indexes and values
-    public static <T> T selectBestValidOptions(Double[] outputs, HashMap<Integer, T> outputIndexes, Set<T> choices) {
+    public static <T> T selectBestValidOptions(double[] outputs, HashMap<Integer, T> outputIndexes, Set<T> choices) {
         double maxValue = Double.MIN_VALUE; // to keep track of best output
         int maxIndex = -1;
-        for (int outputIndex=0; outputIndex<outputs.length; ++outputIndex) {
+
+        double[] softMaxOutputs = softmax(outputs);
+        for (int outputIndex=0; outputIndex<softMaxOutputs.length; ++outputIndex) {
             if (outputIndexes.containsKey(outputIndex)) { // if this index is a possibility
                 if (choices.contains(outputIndexes.get(outputIndex))) { // if this candidate is a valid choice
-                    if (outputs[outputIndex] > maxValue) { // if this is a new maximum
-                        maxValue = outputs[outputIndex];
+                    if (softMaxOutputs[outputIndex] > maxValue) { // if this is a new maximum
+                        maxValue = softMaxOutputs[outputIndex];
                         maxIndex = outputIndex;
                     }
                 }
@@ -54,16 +68,16 @@ public class NEATFunctions {
     }
 
     // TODO document
-    private static Double[] parseNEATOutput(String str) {
+    private static double[] parseNEATOutput(String str) {
         String[] strList = str.substring(1, str.length() - 1).split(",");
-        Double[] intList = new Double[strList.length];
+        double[] intList = new double[strList.length];
         for (int i=0; i<intList.length; ++i) {
             intList[i] = Double.parseDouble(strList[i]);
         }
         return intList;
     }
 
-    public static Double[] getNEATOutput(Player[] players, String name, int phase, int genomeID) {
+    public static double[] getNEATOutput(Player[] players, String name, int phase, int genomeID) {
 
         Double[] inputs = getNEATParameterInputs(players, name, phase); // uses this to give to AI inputs for decision
         String socketString = socketInput(genomeID, inputs);
@@ -75,7 +89,7 @@ public class NEATFunctions {
             // Send commands to the server
             writer.println(socketString);
             String line = reader.readLine();
-            System.out.println("Received from server: " + line);
+            //System.out.println("Received from server: " + line);
             socket.close();
             return parseNEATOutput(line);
         } catch (IOException | NullPointerException e) {

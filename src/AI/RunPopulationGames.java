@@ -1,7 +1,6 @@
 package src.AI;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -62,33 +61,42 @@ public class RunPopulationGames {
         return combination;
     }
 
+    private static int[] parseGenomesString(String genomesString) {
+        // parse genomes string
+        String[] genomesArray = genomesString.substring(1, genomesString.length()-1).split(",");
+        int[] genomeIDs = new int[genomesArray.length];
+        for (int i=0; i<genomesArray.length; ++i) {
+            String genomeIDString = genomesArray[i];
+            genomeIDs[i] = Integer.parseInt(genomeIDString.strip());
+        }
+        return genomeIDs;
+    }
+
     public static void main(String[] args) {
         if (args.length!=4) {
-            System.out.println("Usage: [numGenomes] [numPlayersPerGame] [numGames] [seed]");
+            System.out.println("Usage: [genomes] [numPlayersPerGame] [numGames] [seed]");
             System.exit(2);
         }
-        int numGenomes = Integer.parseInt(args[0]);
+        int[] genomes = parseGenomesString(args[0]);
         int numPlayersPerGame = Integer.parseInt(args[1]);
         int numGames = Integer.parseInt(args[2]);
         Random r = new Random(Integer.parseInt(args[3]));
 
-        if (numPlayersPerGame>numGenomes) {
+        if (numPlayersPerGame>genomes.length) {
             System.out.println("Must have more genomes (players in pool) than number of players per game");
             System.exit(2);
         }
 
-        Player[] players = new Player[numGenomes];
+        NEATPlayer[] players = new NEATPlayer[genomes.length];
         // add new NEAT players for each genomes
         for (int i=0; i<players.length; ++i) {
-            players[i] = new NEATPlayer(Integer.toString(i+1), i+1);
+            players[i] = new NEATPlayer(Integer.toString(genomes[i]), genomes[i]);
         }
 
-        System.out.println("Beginning games");
         ArrayList<Game> games = new ArrayList<>();
         Set<ArrayList<String>> playedCombinations = new HashSet<>();
         ArrayList<String> playerNames = new ArrayList<>();
         for (int gameNum=0; gameNum<numGames; ++gameNum) {
-            System.out.println("Game Num: " + gameNum);
             Player[] thisGamePlayers;
             do { // get unique new players
                 playerNames.clear();
@@ -107,18 +115,11 @@ public class RunPopulationGames {
         }
 
         // collect fitnesses of players
-        System.out.println("Fitnesses");
-        double[] fitnesses = new double[players.length];
-        for (int i=0; i<players.length; ++i) {
-            fitnesses[i] = ((NEATPlayer) players[i]).getFitness(); // note that this also is in order of genome (starting with 1)
+        String jsonString = ""; // represents fitness for each player after this game
+        for (NEATPlayer p: players) {
+            jsonString += String.format("\"%d\": %f, ", p.getGenomeID(), p.getFitness());
         }
-
-        // Send back information about performance of each genome
-        String fitnessesString = "";
-        for (int i=0; i<players.length; ++i) {
-            fitnessesString += fitnesses[i] + ", ";
-        }
-        fitnessesString = "[" + fitnessesString.substring(0, fitnessesString.length()-2) + "]";
-        System.out.println(fitnessesString);
+        jsonString = "{" + jsonString.substring(0, jsonString.length()-2) + "}";
+        System.out.println(jsonString);
     }
 }

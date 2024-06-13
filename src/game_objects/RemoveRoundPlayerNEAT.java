@@ -10,7 +10,6 @@ public class RemoveRoundPlayerNEAT extends RemoveRoundPlayer {
     double fitness = 0.0; // only negative fitness from mistakes in guessing
     HashMap<Integer, Integer> outputIndexes = new HashMap<>();
 
-    // TODO have this take in just played like the other rounds
     public RemoveRoundPlayerNEAT(Hand hand, String name, int genomeID) {
         super(hand, name);
         this.genomeID = genomeID;
@@ -21,7 +20,7 @@ public class RemoveRoundPlayerNEAT extends RemoveRoundPlayer {
     }
     
     // TODO could potentially reorganize so whole HashMap is built somewhere rather than in chunks?
-    private void buildHashMap(Player[] players) { // just uses the last 2 nodes
+    void buildHashMap(Player[] players) { // just uses the last 2 nodes
         int n = players.length;
         if (!outputIndexes.isEmpty()) { // don't built if already built
             return;
@@ -39,7 +38,7 @@ public class RemoveRoundPlayerNEAT extends RemoveRoundPlayer {
     // TODO document
     public int decide(Player[] players) {
         buildHashMap(players); // only build it once, but players are needed for nodes
-        Double[] neatResults = NEATFunctions.getNEATOutput(players, name, 3, genomeID); // 3 is RemoveRound phase
+        double[] neatResults = NEATFunctions.getNEATOutput(players, name, 3, genomeID); // 3 is RemoveRound phase
         Set<Integer> choices = validOptions();
         fitness -= NEATFunctions.badSelectionFitness(neatResults, outputIndexes, choices); // based on error, update fitness from invalid choices
         return NEATFunctions.selectBestValidOptions(neatResults, outputIndexes, choices); // actually make decision based on which are valid
@@ -59,7 +58,7 @@ public class RemoveRoundPlayerNEAT extends RemoveRoundPlayer {
         players[3].getPlacingRoundPlayer().placeCard(true);
 
         // note that outputs change after placing a card.
-        Double[] outputs = NEATFunctions.getNEATOutput(players, "Player 0", 3, ((NEATPlayer) players[0]).getGenomeID());
+        double[] outputs = NEATFunctions.getNEATOutput(players, "Player 0", 3, ((NEATPlayer) players[0]).getGenomeID());
         for (int i=outputs.length-2; i<outputs.length; ++i) { // relevant information
             double output = outputs[i];
             System.out.println(i + " " + output);

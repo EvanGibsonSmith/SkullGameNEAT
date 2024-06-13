@@ -1,3 +1,5 @@
 /lib
+src/AI/neat_customizations
 *.class
 src/AI/examples
+/results
