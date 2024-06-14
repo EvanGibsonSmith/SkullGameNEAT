@@ -77,6 +77,19 @@ public class NEATFunctions {
         return intList;
     }
 
+    // TODO find a way to limit copying from next function to this one?
+    public static void sendSocketReset() {
+        try {
+            Socket socket = new Socket("localhost", 9999);
+            PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+            writer.println("reset");
+            socket.close();
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
+            throw new Error("Socket did not connect or work properly or Reader/Writer error");
+        }
+    }
+
     public static double[] getNEATOutput(Player[] players, String name, int phase, int genomeID) {
 
         Double[] inputs = getNEATParameterInputs(players, name, phase); // uses this to give to AI inputs for decision

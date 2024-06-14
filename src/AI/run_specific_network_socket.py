@@ -37,9 +37,9 @@ config_file = os.path.join(local_dir, 'config-feedforward')
 config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
                     neat.DefaultSpeciesSet, neat.DefaultStagnation,
                     config_file)
-filename = r'results\2-players-nn-more-speciation\neat-checkpoint-299'
+filename = r'results\2-players-rnn\neat-checkpoint-296'
 p = neat.Checkpointer.restore_checkpoint(filename)
-bestGenomeID = 23264 # TODO could save this, but this time just got it manually
+bestGenomeID = 61333 # TODO could save this, but this time just got it manually
 bestGenome = p.population[bestGenomeID]
 
 socketThread = threading.Thread(target=run_socket)

@@ -10,8 +10,9 @@ import java.util.Set;
 import src.game_objects.Game;
 import src.game_objects.NEATPlayer;
 import src.game_objects.Player;
+import src.game_objects.RecurrentNEATGame;
 
-public class RunPopulationGames {
+public class RunNEATPopulationGames {
 
     private static Set<ArrayList<Player>> playerOrderedCombinations(Set<Player> players, int combinationSize) {
         // base case    
@@ -109,7 +110,7 @@ public class RunPopulationGames {
 
             // add this ordering of names to HashSet
             playedCombinations.add(playerNames);
-            Game game = new Game(thisGamePlayers); // play game with those participants
+            Game game = new RecurrentNEATGame(thisGamePlayers); // play game with those participants
             game.runGame();
             games.add(game);
         }

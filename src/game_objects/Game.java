@@ -120,9 +120,6 @@ public class Game {
         }
     }
 
-    /**
-     * @param args Usage is numPlayers, player1Name, player2Name, player3Name, playerNName, type (either terminal or NEAT)
-     */
     public static void main(String[] args) {
         // Ran game for terminal, now using this to run NEAT setup
         /*if (args.length==0) {
